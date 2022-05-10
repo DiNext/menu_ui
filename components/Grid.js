@@ -20,10 +20,3 @@ export default function Grid({cards})  {
         </div>
       )    
 }
-
-Grid.getInitialProps = async () => {
-  const res = await fetch(`http://localhost:3000/api//category/getCategories`);
-  const { data } = await res.json();
-
-  return { cards: data }
-}
