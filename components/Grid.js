@@ -1,4 +1,4 @@
-import { Spin, Alert } from 'antd';
+import { Spin } from 'antd';
 
 export default function Grid({cards})  {
     
@@ -11,9 +11,9 @@ export default function Grid({cards})  {
     return (
         <div className="grid">
           {cards.map((card) => (
-            <div style={{backgroundImage: `url(${card.imageUrl})`, backgroundSize: "cover"}} className="card" key={card.index}>
-                <a href={card.href}>
-                    <h2 className='category_title'>{card.title}</h2>
+            <div style={{backgroundImage: `url(${card.image})`, backgroundSize: "cover"}} className="card" key={card.index}>
+                <a>
+                    <h2 className='category_title'>{card.name}</h2>
                 </a>
             </div> 
           ))}

@@ -1,21 +1,24 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import { Button } from 'antd';
-import Link from 'next/link'
+import { Input } from 'antd';
+import { MouseEventHandler, useState } from 'react';
+import Grid from '../components/Grid.js';
+import useSWR from 'swr';
+import axios from 'axios';
 import 'antd/dist/antd.css';
-import { Input, Space } from 'antd';
-import { AudioOutlined } from '@ant-design/icons';
-import { useState } from 'react'
-import Grid from '../components/Grid.js'
 
 const { Search } = Input;
 
 function Main()  {
   const [flagContent, setFlagContent] = useState(true);
-  const [buttonKitType, setButtonKitType] = useState("primary");
-  const [buttonBarType, setButtonBarType] = useState("default");
+  const [buttonKitType, setButtonKitType] = useState("primary"  as "primary" | "default");
+  const [buttonBarType, setButtonBarType] = useState("default" as "primary" | "default");
 
+
+  const fetcher = (url: any) => axios.get(url).then(res => res.data);
+  const { data, error } = useSWR('http://localhost:3001/api/category', fetcher);
   
-  const onClickKitchen = e => {   
+  const onClickKitchen: MouseEventHandler = (e) => {   
     if(flagContent) {
       console.log(flagContent);
     } else{
@@ -25,13 +28,15 @@ function Main()  {
     }
   };
   
-  const onClickBar = e => {   
+  const onClickBar: MouseEventHandler = (e) => {   
     if(flagContent) {
       setFlagContent(false);
       setButtonBarType('primary');
       setButtonKitType('default');
     } else{console.log(flagContent);} 
   };
+
+  if(error) return <div>Error request cards.</div>;
 
   return (
     <div className="container">
@@ -82,12 +87,11 @@ function Main()  {
 
               <Search placeholder="Введите название блюда" 
                       allowClear  style={{ width: "80%",
-                       id: "search",
-                       marginLeft: "52px",
-                        }} size='large'/>
+                      marginLeft: "52px",
+                       }} size='large'/>
           </div>
                    
-            <Grid></Grid>
+            <Grid cards={data}></Grid>
           
         </div>
         
@@ -99,7 +103,7 @@ function Main()  {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' NTT'}
+          Powered by{' DiNext'}
           
         </a>
       </footer>
