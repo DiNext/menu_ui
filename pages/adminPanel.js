@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { MenuUnfoldOutlined,MenuFoldOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import useSWR from 'swr';
-import AdminPanelProds from '../components/adminPanelProds';
-
+import Prods from '../components/adminPanel/Prods';
+import Category from '../components/adminPanel/Category'
 const { Header, Sider, Content } = Layout;
 
 function AdminPanel() {
@@ -105,7 +105,7 @@ function AdminPanel() {
               
             }}
           > 
-            {React.createElement(select == "prods" ? AdminPanelProds : MenuFoldOutlined, {
+            {React.createElement(select == "prods" ? Prods : Category, {
               categories: categories,
               
             })}        
