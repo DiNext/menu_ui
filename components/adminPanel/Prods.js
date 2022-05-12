@@ -19,7 +19,7 @@ export default function AdminPanelProds({categories, prods}) {
             },
           ]}/>
     </div>
-    <div style={{marginLeft: "40%"}}>
+    <div style={{marginLeft: "40%", marginTop:'-10%'}}>
     <Empty
         image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
         imageStyle={{
@@ -27,11 +27,11 @@ export default function AdminPanelProds({categories, prods}) {
         }}
         description={
           <span>
-            Customize <a href="#API">Description</a>
+            Нет продукции
           </span>
         }
       >
-        <Button type="primary">Create Now</Button>
+        <Button type="primary">Создать новую</Button>
       </Empty>
     </div>
     </> ) 

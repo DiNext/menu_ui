@@ -1,15 +1,29 @@
 import { Layout, Menu } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MenuUnfoldOutlined,MenuFoldOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import useSWR from 'swr';
 import Prods from '../components/adminPanel/Prods';
 import Category from '../components/adminPanel/Category'
+import cookieManager from '../src/managers/cookieManager';
+import { useRouter } from 'next/router';
+
 const { Header, Sider, Content } = Layout;
 
 function AdminPanel() {
   const [collapsed, setToggle] = useState(false);
   const [select, setSelect] = useState('prods');
+  
+  const cookie = new cookieManager();
+  const router = useRouter();
+
+  if (typeof window !== "undefined") {
+    const ck = cookie.getCookie('auth_token');
+
+    if(ck == undefined){
+      router.push('/auth');
+    }
+  }
   
   const fetcher = (url) => axios.get(url).then(res => res.data);
   const { data, error } = useSWR('http://localhost:3001/api/category', fetcher);
@@ -35,7 +49,6 @@ function AdminPanel() {
       }
     }
 
-    const res = [];
     cards.forEach(element => {
       if(element != {}){
         categories.push(element);

@@ -1,5 +1,14 @@
-import { Table, Tag, Space } from 'antd';
+import { Table, Space, Button } from 'antd';
+import React, {  useState } from 'react';
+import CreateCategoryForm from './CreateCategoryForm';
+
 export default function AdminPanelProds({categories}) {
+    const [createCategory, setCreateCategory] = useState(false);
+
+    function handleCreateCategory() {
+      setCreateCategory(!createCategory);
+    }
+
     const columns = [
         {
           title: 'Название',
@@ -13,37 +22,12 @@ export default function AdminPanelProds({categories}) {
           key: 'parent',
         },
         {
-          title: 'Address',
-          dataIndex: 'address',
-          key: 'address',
-        },
-        {
-          title: 'Tags',
-          key: 'tags',
-          dataIndex: 'tags',
-          render: tags => (
-            <>
-              {tags.map(tag => {
-                let color = tag.length > 5 ? 'geekblue' : 'green';
-                if (tag === 'loser') {
-                  color = 'volcano';
-                }
-                return (
-                  <Tag color={color} key={tag}>
-                    {tag.toUpperCase()}
-                  </Tag>
-                );
-              })}
-            </>
-          ),
-        },
-        {
-          title: 'Action',
+          title: 'Действие',
           key: 'action',
           render: (text, record) => (
             <Space size="middle">
-              <a>Invite {record.name}</a>
-              <a>Delete</a>
+              <a>Редактировать</a>
+              <a>Удалить</a>
             </Space>
           ),
         },
@@ -52,28 +36,24 @@ export default function AdminPanelProds({categories}) {
       const data = [
         {
           key: '1',
-          name: 'John Brown',
-          age: 32,
-          address: 'New York No. 1 Lake Park',
-          tags: ['nice', 'developer'],
+          name: 'John Brown'
         },
         {
           key: '2',
-          name: 'Jim Green',
-          age: 42,
-          address: 'London No. 1 Lake Park',
-          tags: ['loser'],
+          name: 'Jim Green'
         },
         {
           key: '3',
-          name: 'Joe Black',
-          age: 32,
-          address: 'Sidney No. 1 Lake Park',
-          tags: ['cool', 'teacher'],
-        },
+          name: 'Joe Black'
+        }
       ];
-
-    return (<div style={{ width:"100%", height:"100%"}}>
-        <Table columns={columns} dataSource={data} />;
+    if(createCategory){
+      return <CreateCategoryForm onChange={handleCreateCategory}></CreateCategoryForm>
+    } else{
+      return (<div style={{ width:"100%", height:"95%"}}>
+        <Table columns={columns} dataSource={data} style={{ width:"100%", height:"100%"}}/>
+        <Button onClick={handleCreateCategory} style={{}} type="primary">Создать новую</Button>
     </div> ) 
+    }
+    
 }

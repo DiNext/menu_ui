@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { Button } from 'antd';
 import { Input } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import { MouseEventHandler, useState } from 'react';
 import Grid from '../components/Grid.js';
 import useSWR from 'swr';
@@ -36,8 +37,6 @@ function Main()  {
     } else{console.log(flagContent);} 
   };
 
-  if(error) return <div>Error request cards.</div>;
-
   return (
     <div className="container">
       <Head>
@@ -58,8 +57,8 @@ function Main()  {
         </h1>
         <div className='content'>
           <div className='description_title'>
-              <span className="span">
-                <h4>Электронное меню</h4>
+              <span className="span">     
+                <h4>Электронное меню</h4>              
               </span>
               <span className="desc">
                 
@@ -98,14 +97,7 @@ function Main()  {
       </main>
 
       <footer>
-        <a
-          href="https://nt-t.kz"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' DiNext'}
           
-        </a>
       </footer>
     </div>
   )}

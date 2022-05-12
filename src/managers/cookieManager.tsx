@@ -3,8 +3,11 @@ class CookieManager{
 
     }
 
-    public setCookie(name: string, data: string){
-        document.cookie = `${name} = ${data}`;
+    public setCookie(cName: string, cValue: string, expDays: number,){
+        let date = new Date();
+        date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
+        const expires = "expires=" + date.toUTCString();
+        document.cookie = cName + "=" + cValue + "; " + expires + "; path=/";
     }
 
     public getCookie(name: string){
