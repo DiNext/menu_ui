@@ -41,12 +41,11 @@ export default function AdminPanelProds({categories, prods}) {
           switcherIcon={<DownOutlined />}
           defaultExpandedKeys={['0']}
           defaultExpandAll={true}
-          style={{}}
           treeData={[
             {
               title: 'Общая группа',
-              key: '1',
-              children: [categories]     
+              key: '1'/* ,
+              children: []   */   
             },
           ]}/>
     </div>
@@ -56,3 +55,5 @@ export default function AdminPanelProds({categories, prods}) {
     </> ) 
     }
 }
+
+

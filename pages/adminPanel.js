@@ -1,5 +1,5 @@
 import { Layout, Menu } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { MenuUnfoldOutlined,MenuFoldOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import useSWR from 'swr';
@@ -10,10 +10,10 @@ import { useRouter } from 'next/router';
 
 const { Header, Sider, Content } = Layout;
 
-function AdminPanel() {
+function AdminPanel({ categories, cardsChildren }) {
   const [collapsed, setToggle] = useState(false);
   const [select, setSelect] = useState('prods');
-  
+
   const cookie = new cookieManager();
   const router = useRouter();
 
@@ -24,41 +24,7 @@ function AdminPanel() {
       router.push('/auth');
     }
   }
-  
-  const fetcher = (url) => axios.get(url).then(res => res.data);
-  const { data, error } = useSWR('http://localhost:3001/api/category', fetcher);
 
-  let categories = [];
-
-  if(!error && data != [] && data != undefined){ //TODO
-    const array = [];//creating array
-    data.forEach(element => {
-      array.push({title: element.title, key: element.id, parent: element.parent, children: []});
-    });
-
-    array.sort((a, b) => a - b); //sorting array 
-
-    const cards = [];
-
-    for(let i = 0; i < cards.length; i++){
-      for(let j = i + 1; j < cards.length; j++){
-          if(cards[i].id == cards[j].parent && cards[i].childs != undefined){
-              cards[i].childs.push(cards[j])
-              cards[j] = {};
-          }  
-      }
-    }
-
-    cards.forEach(element => {
-      if(element != {}){
-        categories.push(element);
-      }
-    });
-
-  } else {
-    categories = [];
-  }
-  
   function handleToggle() {
     setToggle(!collapsed);
   };
@@ -73,12 +39,13 @@ function AdminPanel() {
 
   let styleLogo ={color: "white", padding: 10, fontSize: 18};
   let txt = 'Меню'
-  if(collapsed){
-    styleLogo = {};
-    txt = '';
+
+  if(collapsed) { 
+    styleLogo = {}; 
+    txt = ''; 
   }
   
-    return (
+  return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className="logo" ><span style={styleLogo}>{txt}</span></div>
@@ -115,19 +82,52 @@ function AdminPanel() {
               display: 'flex',
               justifyContent: "left",
               flexDirection: "row"
-              
-            }}
-          > 
-            {React.createElement(select == "prods" ? Prods : Category, {
-              categories: categories,
-              
-            })}        
+            }}> 
+            {React.createElement(select == "prods" ? Prods : Category, {categories: categories, cardsChildren: cardsChildren}) }     
           </Content>
         </Layout>
-      </Layout>
-      
-    );
-  
+      </Layout>);
+}
+
+export async function getStaticProps() {
+  const res = await axios.get('http://localhost:3001/api/category').then(res => res.data)
+
+  let categories = res
+  let cardsChildren = [];
+
+  if(res != [] && res != undefined) { //TODO
+    const cards = [];//creating array
+    res.forEach(element => {
+      cards.push({ title: element.name, id: element.id, parent: element.parent, children: [] });
+    });
+    
+    cards.sort((a, b) => a - b); //sorting array 
+    
+    
+
+    for(let i = 0; i < cards.length; i++){
+      for(let j = i + 1; j < cards.length; j++){
+          if(cards[i].title == cards[j].parent && cards[i].children != undefined){
+              console.log(1)
+              cards[i].children.push(cards[j])
+              cards[j] = {};
+          }  
+      }
+    }
+
+    cards.forEach(element => {
+      if(element != {}){
+        cardsChildren.push(element);
+      }
+    });
+  }  
+  console.log(cardsChildren)
+  return {
+    props: {
+      categories,
+      cardsChildren
+    },
+  }
 }
 
 export default AdminPanel;

@@ -16,12 +16,8 @@ const upload = multer({
   
   storage: multer.diskStorage({
     destination: './public/images',
-    filename: (req, file, cb) => cb(null, file.originalname),
-  }),
-  /*fileFilter: (req, file, cb) => {
-    const acceptFile: boolean = ['image/jpeg', 'image/png'].includes(file.mimetype);
-    cb(null, acceptFile);
-  },*/
+    filename: (req, file, cb) => {cb(null, file.originalname); console.log(1);}
+  })
 });
 
 const apiRoute = nextConnect({
@@ -33,7 +29,7 @@ const apiRoute = nextConnect({
   },
 });
 
-apiRoute.use(upload.any());
+apiRoute.use(upload.single('theFiles'));
 
 apiRoute.post((req: NextConnectApiRequest, res: NextApiResponse<ResponseData>) => {
   const filenames = fs.readdirSync(outputFolderName);
@@ -45,6 +41,6 @@ apiRoute.post((req: NextConnectApiRequest, res: NextApiResponse<ResponseData>) =
 export const config = {
   api: {
     bodyParser: false, // Disallow body parsing, consume as stream
-  },
+  }
 };
 export default apiRoute;
