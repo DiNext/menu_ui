@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router'
-import { Form, Input, Button, Upload, Select, Alert, Space } from 'antd';
+import { Form, Input, Button, Upload, Select, InputNumber } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import cookieManager from '../../src/managers/cookieManager';
 import axios from 'axios';
 
-function CreateCategoryForm (props) {
+function CreateProd (props) {
     const [image, setImage] = useState(null);
-    const [trigger, setTrigger] = useState(false);
 
     const router = useRouter()
     const cookie = new cookieManager();
@@ -29,14 +28,6 @@ function CreateCategoryForm (props) {
     }
 
     async function onFinish(values) {
-        let uniqName = true;
-        props.categories.forEach(element => {
-            if(element.name == values.name){
-                uniqName = false
-            }
-        });
-
-        if(uniqName) {
             let imageURL = '';
             if(image != null){ //creating image
                 const config = {
@@ -55,20 +46,17 @@ function CreateCategoryForm (props) {
                 token = cookie.getCookie('auth_token');
             } 
 
-            let body;
-            if(values.parent == "none"){
-                body = {
-                    name: values.name,
-                    image: imageURL
-                }
-            }else{
-                body = {
-                    name: values.name,
-                    image: imageURL,
-                    parent: values.parent
-                }
+            let parent;
+            props.categories.forEach(element => {
+                if(element.id == values.parent) parent = element
+            });
+            const body = {
+                name: values.name,
+                image: imageURL,
+                parent: parent,
+                desc: values.desc,
+                price: values.price
             }
-            
 
             const config = {
                 headers: {
@@ -77,42 +65,31 @@ function CreateCategoryForm (props) {
                 }
         }
 
-        await axios.post('http://localhost:3001/api/category', body, config);
+        await axios.post('http://localhost:3001/api/prods', body, config);
         router.reload(window.location.pathname);
         props.onChange();
-        } else{
-            setTrigger(true);
-        }
+
     }
-    if(trigger){
-        return <Alert
-        message="Название категории не уникально."
-        description={<><p>Введите другое название.</p>
-                      <Space direction="horizontal">
-                      <Button size="small"  type="primary" onClick={e =>{setTrigger(false)}}>
-                        Ок
-                      </Button>
-                    </Space></>}
-        type="info"
-        onClose={e =>{setTrigger(false)}}
-        style={{position:"relative", left: "30%", top:"-10%"}}
-        closable
-      />
-    }else{
         return (
             <Form
             style={{width:'450px',position:"absolute", left: "40%", top:'30%'}}
-            labelCol= {{ span: 6.5 }}
+            labelCol= {{ span: 10 }}
             wrapperCol= {{ span: 20 }}
             onFinish={onFinish}
             size='large'
-            >   <h1 style={{fontSize:'21px', marginBottom:20}}>Создание новой категории</h1>
-                <Form.Item name="name" label="Название" rules={[{ required: true, message: 'Введите название категории!' }]}>
+            >   <h1 style={{fontSize:'21px', marginBottom:20}}>Создание новой продукции</h1>
+                <Form.Item name="name" label="Название" rules={[{ required: true, message: 'Введите название продукции!' }]}>
+                    <Input />
+                </Form.Item>
+                <Form.Item name="price" label="Цена" rules={[{ required: true, message: 'Введите цену!' }]}>
+                    <InputNumber />
+                </Form.Item>
+                <Form.Item name="desc" label="Описание" rules={[{ required: true, message: 'Введите описание!' }]}>
                     <Input />
                 </Form.Item>
                 <Form.Item label="Родительская категория" name="parent" rules={[{ required: true, message: 'Выбрите родительскую категорию!' }]}>
                     <Select>
-                    <Select.Option value="none">Нет</Select.Option>    
+                    <Select.Option value="0">Нет</Select.Option>    
                     {props.categories.map((category) => (              
                         <Select.Option key={category.id} value={category.id}>{category.name}</Select.Option>
                     ))}
@@ -136,6 +113,5 @@ function CreateCategoryForm (props) {
             </Form>
         );
     } 
-};
 
-export default CreateCategoryForm;
+export default CreateProd;

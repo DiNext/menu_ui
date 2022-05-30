@@ -90,42 +90,11 @@ function AdminPanel({ categories, cardsChildren }) {
 }
 
 export async function getStaticProps() {
-  const res = await axios.get('http://localhost:3001/api/category').then(res => res.data)
+  const categories = await axios.get('http://localhost:3001/api/category').then(res => res.data)
 
-  let categories = res
-  let cardsChildren = [];
-
-  if(res != [] && res != undefined) { //TODO
-    const cards = [];//creating array
-    res.forEach(element => {
-      cards.push({ title: element.name, id: element.id, parent: element.parent, children: [] });
-    });
-    
-    cards.sort((a, b) => a - b); //sorting array 
-    
-    
-
-    for(let i = 0; i < cards.length; i++){
-      for(let j = i + 1; j < cards.length; j++){
-          if(cards[i].title == cards[j].parent && cards[i].children != undefined){
-              console.log(1)
-              cards[i].children.push(cards[j])
-              cards[j] = {};
-          }  
-      }
-    }
-
-    cards.forEach(element => {
-      if(element != {}){
-        cardsChildren.push(element);
-      }
-    });
-  }  
-  console.log(cardsChildren)
   return {
     props: {
-      categories,
-      cardsChildren
+      categories
     },
   }
 }

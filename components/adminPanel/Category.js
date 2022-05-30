@@ -14,8 +14,13 @@ export default function AdminPanelCategoty(props) {
 
     const router = useRouter()
     const cookie = new cookieManager();
+
     function handleCreateCategory() {
       setCreateCategory(!createCategory);
+    }
+
+    function handleEditCategory() {
+      setEdit(!edit);
     }
 
     async function onDelete(){
@@ -57,7 +62,7 @@ export default function AdminPanelCategoty(props) {
           render: (text, record) => (
             <Space size="middle">
               <a onClick={ (e) => { setselectedCol(record); setEdit(true);} }>Редактировать</a>
-              <a onClick={ (e) => { setselectedCol(record); setDel(true);} }>Удалить</a>
+              {record.prods.length == 0 && record.chil.length == 0? <a onClick={ (e) => { setselectedCol(record); setDel(true);} }>Удалить</a> : ''}
             </Space>
           ),
         },
@@ -66,14 +71,29 @@ export default function AdminPanelCategoty(props) {
     const data = [];
     
     if(props.categories && props.categories != []){
-      for(let i = 0; i < props.categories.length; i++){
-        props.categories[i].key = i;
-        if(props.categories[i].parent === 'none'){
-          props.categories[i].parent = 'Нет';
+      props.categories.forEach(element => {
+        if(element.parent != null){
+          data.push({
+            id: element.id,
+            name: element.name,
+            parent: element.parent.name,
+            prods: element.prods,
+            chil: element.children
+          })
+        } else{
+          data.push({
+            id: element.id,
+            name: element.name,
+            parent: 'Нет',
+            prods: element.prods,
+            chil: element.children
+          })
         }
-        data.push(props.categories[i]);
-      }
+      });
+
     }
+    
+    
       if(del){
         return <Alert
         message="Вы уверены что хотите удалить категорию?"
@@ -96,7 +116,7 @@ export default function AdminPanelCategoty(props) {
       if(createCategory){
         return <CreateCategoryForm onChange={handleCreateCategory} categories={props.categories}></CreateCategoryForm>
       } else if(edit){
-        return <EditCategoryForm onChange={handleCreateCategory} categories={props.categories}></EditCategoryForm>
+        return <EditCategoryForm onChange={handleEditCategory} categories={props.categories} selectedCategory={selectedCol}></EditCategoryForm>
       }else{
         return (<div style={{ width:"100%", height:"95%"}}>
           <Table columns={columns} dataSource={data} style={{ width:"100%", height:"100%"}}/>

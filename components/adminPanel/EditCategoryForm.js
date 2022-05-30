@@ -5,7 +5,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import cookieManager from '../../src/managers/cookieManager';
 import axios from 'axios';
 
-function CreateCategoryForm (props) {
+function EditCategoryForm (props) {
     const [image, setImage] = useState(null);
     const [trigger, setTrigger] = useState(false);
 
@@ -20,7 +20,7 @@ function CreateCategoryForm (props) {
         }
     };
 
-    async function onClose() {
+    function onClose() {
         props.onChange();
     }
 
@@ -30,13 +30,16 @@ function CreateCategoryForm (props) {
 
     async function onFinish(values) {
         let uniqName = true;
+        let emptyCategory = true;
+
         props.categories.forEach(element => {
-            if(element.name == values.name){
+            if(props.selectedCategory.name != values.name && element.name == values.name){
                 uniqName = false
+                setTrigger(true)
             }
         });
 
-        if(uniqName) {
+        if(uniqName && emptyCategory) {
             let imageURL = '';
             if(image != null){ //creating image
                 const config = {
@@ -51,15 +54,22 @@ function CreateCategoryForm (props) {
                 console.log(imageURL)
             } 
 
+            const id = props.selectedCategory.id;
+
             let token;
             if (typeof window !== "undefined") {
                 token = cookie.getCookie('auth_token');
             } 
-
-            const body = {
-                name: values.name,
-                image: imageURL,
-                parent: values.parent
+            let body;
+            if(image != null){
+                body = {
+                    name: values.name,
+                    image: imageURL
+                }
+            } else{
+                body = {
+                    name: values.name
+                }
             }
 
             const config = {
@@ -67,14 +77,11 @@ function CreateCategoryForm (props) {
                     'content-type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 }
-        }
-
-        await axios.post('http://localhost:3001/api/category', body, config);
-        router.reload(window.location.pathname);
-        props.onChange();
-        } else{
-            setTrigger(true);
-        }
+            }
+            await axios.put(`http://localhost:3001/api/category?id=${id}`, body, config);
+            router.reload(window.location.pathname);
+            props.onChange();
+         }
     }
     if(trigger){
         return <Alert
@@ -90,7 +97,8 @@ function CreateCategoryForm (props) {
         style={{position:"relative", left: "30%", top:"-10%"}}
         closable
       />
-    }else{
+    }
+    else{
         return (
             <Form
             style={{width:'450px',position:"absolute", left: "40%", top:'30%'}}
@@ -98,22 +106,13 @@ function CreateCategoryForm (props) {
             wrapperCol= {{ span: 20 }}
             onFinish={onFinish}
             size='large'
-            >   <h1 style={{fontSize:'21px', marginBottom:20}}>Создание новой категории</h1>
-                <Form.Item name="name" label="Название" rules={[{ required: true, message: 'Введите название категории!' }]}>
+            >   <h1 style={{fontSize:'21px', marginBottom:20}}>Редактирование категории "{props.selectedCategory.name}"</h1>
+                <Form.Item name="name" label="Новое название" rules={[{ required: true, message: 'Введите название категории!' }]}>
                     <Input />
                 </Form.Item>
-                <Form.Item label="Родительская категория" name="parent" rules={[{ required: true, message: 'Выбрите родительскую категорию!' }]}>
-                    <Select>
-                    <Select.Option value="none">Нет</Select.Option>    
-                    {props.categories.map((category) => (              
-                        <Select.Option key={category.id} value={category.name}>{category.name}</Select.Option>
-                    ))}
-                     </Select>
-                </Form.Item>
-                
                 <Form.Item
                     name="upload" 
-                    label="Загрузить изображение"
+                    label="Загрузить новое изображение"
                     valuePropName="fileList"
                     getValueFromEvent={normFile}>
                     <Upload maxCount={1} listType="picture-card" action={'/'} onRemove={onRemove}>
@@ -122,7 +121,7 @@ function CreateCategoryForm (props) {
                 </Form.Item>
     
                 <Form.Item >
-                    <Button type="primary" htmlType='submit'>Создать</Button>
+                    <Button type="primary" htmlType='submit'>Редактировать</Button>
                     <Button style={{marginLeft: 20}} onClick={onClose}>Отмена</Button>
                 </Form.Item>
             </Form>
@@ -130,4 +129,4 @@ function CreateCategoryForm (props) {
     } 
 };
 
-export default CreateCategoryForm;
+export default EditCategoryForm;

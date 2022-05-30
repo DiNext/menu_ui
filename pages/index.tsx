@@ -75,18 +75,11 @@ function Main()  {
                   +7(747)-572-76-00</a>
               </span>
 
-              <div className='buttons'>
-                <div className='menu_kuhnya'>
-                <Button type={buttonKitType} id="menu_kuhnya" onClick={onClickKitchen}>Кухня</Button>
-                </div>
-                <div className='menu_bar'>
-                <Button type={buttonBarType} id="menu_bar" onClick={onClickBar}>Бар</Button>
-                </div>
-              </div>
+
 
               <Search placeholder="Введите название блюда" 
                       allowClear  style={{ width: "80%",
-                      marginLeft: "52px",
+                      marginLeft: "52px", marginTop: "45px",
                        }} size='large'/>
           </div>
                    
