@@ -78,8 +78,8 @@ function Main()  {
 
 
               <Search placeholder="Введите название блюда" 
-                      allowClear  style={{ width: "80%",
-                      marginLeft: "52px", marginTop: "45px",
+                      allowClear  style={{ width: "90%",
+                      marginLeft: "25px", marginTop: "45px",
                        }} size='large'/>
           </div>
                    
