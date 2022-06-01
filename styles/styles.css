@@ -12,7 +12,7 @@
   justify-content: center;
   align-items: center;
   z-index: 10;
-  min-width: 500px;
+  min-width: 580px;
 }
 .title {
   min-width: 700px;
@@ -39,9 +39,11 @@
   display: flex;
   justify-content: left;
   align-items: left;
-  font-size: 1em;
-  margin-left: 52px;
-  margin-top: -10px;
+  font-size: 1.05em;
+  margin-left: 27px;
+  margin-top: 10px;
+  margin-bottom: -46px;
+  color:#d46b08;
 }
 .span {
   display: flex;
@@ -49,8 +51,8 @@
   justify-content: left;
   align-items: left;
   font-size: 2.4em;
-  margin-left: 52px;
-  margin-top: -10px
+  margin-left: 28px;
+  margin-top: -10px;
   
 }
 
@@ -71,6 +73,8 @@
   width:100%;
   height: 150px;
   margin-top: 30px;
+  margin-bottom: 20px;
+  
 }
 
 .placeholder{
@@ -100,7 +104,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-width: 500px;
+  min-width: 580px;
   
 }
 
@@ -109,7 +113,8 @@ main {
   top:120px;
   display: flex;
   flex-direction: column;
-  min-width:500px;
+  min-width:580px;
+  
   min-height:100%;
   border-radius: 24px 24px 0px 0px;
   box-shadow: var(--light-shadow);
@@ -172,7 +177,8 @@ code {
 .card {
   position: relative;
   margin: 0.4rem;
-  flex-basis: 45%;
+  
+  height: 130px;
   padding: 1rem;
   text-align: left;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
@@ -207,6 +213,10 @@ code {
   text-shadow: 1px 1px 2px black;
 }
 
+.tel{
+margin-left: 10px;
+}
+
 .logo {
   height: 1em;
 }
@@ -214,8 +224,18 @@ code {
 
 @media (max-width: 600px) {
   .grid {
-    width: 100%;
+    min-width: 100%;
+    
     flex-direction: column;
+  }
+  .content{
+    min-width: 100%
+  }
+  .main{
+    min-width: 100%
+  }
+  .container{
+    min-width:100%
   }
 }
 

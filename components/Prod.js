@@ -21,10 +21,9 @@ export default function Prod({card})  {
     return (<>
           <Badge style={{width:30}} count={count} status="success" showZero={false} offset={[0,18]}>       
           <Card
-          hoverable
           style={{
-            width:"450px",
-
+            width:"500px",
+            boxShadow: "0 0 10px 0 rgba(0,0,0,.1)",
             marginTop:20
           }}
           actions={[
@@ -34,8 +33,8 @@ export default function Prod({card})  {
           ]}
           cover={<img alt="image" src={card.image? `../images/${card.image}` : '../images/3.jpg'} style={{height:250}}/>}
         >
-          <Meta title={card.name}  style={{color:"Red"}}  />
-           <p style={{marginTop:4, marginBottom:0}}>Цена: {card.price + " тг."}</p>
+          <p style={{fontSize:'21px', fontWeight:'bold'}}> {card.name}</p>
+           <p style={{marginTop:4, marginBottom:0, fontSize:'22px', color:'#d46b08',fontWeight:'bold'}}>{card.price + " тг."}</p>
         </Card></Badge>
 
       </>)

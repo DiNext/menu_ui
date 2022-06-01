@@ -1,42 +1,25 @@
 import Head from 'next/head';
-import { Button } from 'antd';
-import { Input } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Input, ConfigProvider, Button } from 'antd';
+import { ShoppingCartOutlined, EnvironmentOutlined, PhoneOutlined } from '@ant-design/icons';
 import { MouseEventHandler, useState } from 'react';
 import Grid from '../components/Grid.js';
 import useSWR from 'swr';
 import axios from 'axios';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.variable.min.css'
 
 const { Search } = Input;
 
+ConfigProvider.config({
+  theme: {
+    primaryColor: '#d46b08',
+  },
+});
 function Main()  {
-  const [flagContent, setFlagContent] = useState(true);
-  const [buttonKitType, setButtonKitType] = useState("primary"  as "primary" | "default");
-  const [buttonBarType, setButtonBarType] = useState("default" as "primary" | "default");
-
+  const [backet, setBacket] = useState(true);
 
   const fetcher = (url: any) => axios.get(url).then(res => res.data);
   const { data, error } = useSWR('http://localhost:3001/api/category', fetcher);
   
-  const onClickKitchen: MouseEventHandler = (e) => {   
-    if(flagContent) {
-      console.log(flagContent);
-    } else{
-      setFlagContent(true)
-      setButtonKitType('primary');
-      setButtonBarType('default');
-    }
-  };
-  
-  const onClickBar: MouseEventHandler = (e) => {   
-    if(flagContent) {
-      setFlagContent(false);
-      setButtonBarType('primary');
-      setButtonKitType('default');
-    } else{console.log(flagContent);} 
-  };
-
   return (
     <div className="container">
       <Head>
@@ -58,28 +41,26 @@ function Main()  {
         <div className='content'>
           <div className='description_title'>
               <span className="span">     
-                <h4>Электронное меню</h4>              
+                <h4>Ресторан Вкус Востока</h4>              
               </span>
+              
               <span className="desc">
-                
-                <a href="https://goo.gl/maps/KT63x3U4Cxk6Nrgs9" target="_blank">
-                <img src="/images/address.png" 
-                id='address'
-                />
+              
+                <a href="https://goo.gl/maps/KT63x3U4Cxk6Nrgs9" target="_blank" >
+                <EnvironmentOutlined />
                 г. Тараз ул. Толе би 61А</a>
-                <a href="tel:+77475727600">
-                <img src="/images/telephone.png" 
-                id='telephone'
-                />
                 
+                <a href="tel:+77475727600" className='tel'>
+                <PhoneOutlined/>
                   +7(747)-572-76-00</a>
+                  
               </span>
-
+              <Button icon={<ShoppingCartOutlined />} type="primary" size='large' style={{position:'relative', right:"-74%",  top:'15%', marginBottom:-20, marginTop:-20, }}>Корзина</Button>
 
 
               <Search placeholder="Введите название блюда" 
                       allowClear  style={{ width: "90%",
-                      marginLeft: "25px", marginTop: "45px",
+                      marginLeft: "27px", marginTop: "45px",
                        }} size='large'/>
           </div>
                    
@@ -90,7 +71,7 @@ function Main()  {
       </main>
 
       <footer>
-          
+      
       </footer>
     </div>
   )}
