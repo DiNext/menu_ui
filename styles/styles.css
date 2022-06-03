@@ -14,9 +14,7 @@
   z-index: 10;
   min-width: 580px;
 }
-.title {
-  min-width: 700px;
-}
+
 
 .buttons {
   display: flex;
@@ -237,6 +235,20 @@ margin-left: 10px;
   .container{
     min-width:585px;
   }
+  .title_img{
+    min-width:585px;
+  }
+  .title_icon{
+    margin-left:255px;
+    left:0;
+  }
+  .icon{
+    min-width:585px;
+  }
+  .title{
+    min-width:585px;
+  }
+  
 }
 
 

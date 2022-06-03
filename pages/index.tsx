@@ -23,27 +23,24 @@ function Main()  {
   useEffect(() => {
     const id = setInterval(() => {
       checkBacket();
-    }, 100);
+    }, 300);
     return () => clearInterval(id);
   }, []);
 
-  /* useEffect(() => {
-    setInterval(function() {
-      checkBacket()
-    }, 100);
-    
-
-
-    
-  }); */
-
    function checkBacket() {
+     try{
       const backet = JSON.parse(localStorage.getItem ("Backet") || "");
 
       if(backet != ""){
         backet.forEach(function (element: any, index: any){
-          setCount(index+1)
-        });}
+          setCount(index + 1)
+        });
+      } else{
+        setCount(0)
+      }
+     } catch{
+       setCount(0)
+     }
   } 
 
   return (
@@ -81,7 +78,7 @@ function Main()  {
                   +7(747)-572-76-00</a>
                   
               </span>
-              <Badge  count={count} style={{marginLeft:'200px'}}status="success" showZero={false} ></Badge><Button icon={<ShoppingCartOutlined />} type="primary" size='large' style={{ position:'relative', right:'-40%'}}>Корзина</Button>
+              <div style={{position: 'relative', left:'74%', width:100}}><Badge  count={count} style={{marginLeft:'200px'}}status="success" showZero={false} ><Button icon={<ShoppingCartOutlined />} type="primary" size='large' >Корзина</Button></Badge></div>
 
               <Search placeholder="Введите название блюда" 
                       allowClear  style={{ width: "90%",
