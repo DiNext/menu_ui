@@ -1,6 +1,6 @@
 import Head from 'next/head';
-import { Input, ConfigProvider, Button, Badge } from 'antd';
-import { ShoppingCartOutlined, EnvironmentOutlined, PhoneOutlined } from '@ant-design/icons';
+import { Drawer, Input, ConfigProvider, Button, Badge, Space } from 'antd';
+import { ShoppingCartOutlined, EnvironmentOutlined, PhoneOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
 import { MouseEventHandler, useState, useEffect } from 'react';
 import Grid from '../components/Grid.js';
 import useSWR from 'swr';
@@ -19,6 +19,34 @@ function Main()  {
   const fetcher = (url: any) => axios.get(url).then(res => res.data);
   const { data, error } = useSWR('http://localhost:3001/api/category', fetcher);
   const [count, setCount] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const [backetData, setBacketData] = useState([]);
+
+  const showLargeDrawer = () => {
+    setVisible(true);
+  };
+
+  function increment(cardId : any) {
+    backetData.forEach(function (element: any) {
+      element.id == cardId ? element.qnty += 1 : console.log(1); 
+    })
+
+    localStorage.setItem ("Backet", JSON.stringify(backetData));
+  }
+
+  function decrement(cardId : any) {
+    backetData.forEach(function (element: any, index: any) {
+      if(element.id == cardId) {
+        if(element.qnty == 1){
+          backetData.splice(index, 1);
+        } else{
+          element.qnty -= 1
+        }
+      } 
+    })
+
+    localStorage.setItem ("Backet", JSON.stringify(backetData));
+  }
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -35,6 +63,7 @@ function Main()  {
         backet.forEach(function (element: any, index: any){
           setCount(index + 1)
         });
+        setBacketData(backet);
       } else{
         setCount(0)
       }
@@ -42,6 +71,9 @@ function Main()  {
        setCount(0)
      }
   } 
+  const onClose = () => {
+    setVisible(false);
+  };
 
   return (
     <div className="container">
@@ -78,7 +110,7 @@ function Main()  {
                   +7(747)-572-76-00</a>
                   
               </span>
-              <div style={{position: 'relative', left:'74%', width:100}}><Badge  count={count} style={{marginLeft:'200px'}}status="success" showZero={false} ><Button icon={<ShoppingCartOutlined />} type="primary" size='large' >Корзина</Button></Badge></div>
+              <div style={{position: 'relative', left:'74%', width:100}} onClick={showLargeDrawer}><Badge  count={count} style={{marginLeft:'200px'}}status="success" showZero={false} ><Button icon={<ShoppingCartOutlined />} type="primary" size='large' >Корзина</Button></Badge></div>
 
               <Search placeholder="Введите название блюда" 
                       allowClear  style={{ width: "90%",
@@ -89,7 +121,28 @@ function Main()  {
             <Grid cards={data} ></Grid>
           
         </div>
-        
+        <Drawer
+        title={`Корзина`}
+        placement="right"
+        closable={false}
+        width={500}
+        onClose={onClose}
+        visible={visible}
+        extra={
+          <Space>
+            <Button onClick={onClose}>Отмена</Button>
+            <Button type="primary" onClick={onClose}>
+              Оформить заказ!
+            </Button>
+          </Space>
+        }
+      >
+        {
+          backetData.map((card) => (
+            <div style={{display:"flex"}}><p style={{width:"260px"}}>{card['name']}</p><PlusOutlined  style={{marginLeft:'100px'}}onClick={()=>{increment(card['id'])}} key="edit" /> <p style={{marginLeft:'5px'}}> {card['qnty'] + " шт."}</p><MinusOutlined style={{marginLeft:'5px'}} onClick={(e)=>{decrement(card['id'])}} key="ellipsis" /></div>
+          ))
+        }
+      </Drawer>
       </main>
 
       <footer>

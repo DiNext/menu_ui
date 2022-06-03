@@ -10,13 +10,16 @@ export default function Prod({card})  {
     useEffect(() => {
       const backet = JSON.parse(localStorage.getItem ("Backet"));
 
-      if(backet){
+      if(backet != ""){
         backet.forEach(element => {
           if(element.id == card.id){
             setFlag(false);
             setCount(element.qnty);
           }
         });
+      } else{
+        setFlag(true);
+        setCount(0);
       }
     });
 
