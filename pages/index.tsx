@@ -1,7 +1,7 @@
 import Head from 'next/head';
-import { Input, ConfigProvider, Button } from 'antd';
+import { Input, ConfigProvider, Button, Badge } from 'antd';
 import { ShoppingCartOutlined, EnvironmentOutlined, PhoneOutlined } from '@ant-design/icons';
-import { MouseEventHandler, useState } from 'react';
+import { MouseEventHandler, useState, useEffect } from 'react';
 import Grid from '../components/Grid.js';
 import useSWR from 'swr';
 import axios from 'axios';
@@ -14,12 +14,38 @@ ConfigProvider.config({
     primaryColor: '#d46b08',
   },
 });
-function Main()  {
-  const [backet, setBacket] = useState(true);
 
+function Main()  {
   const fetcher = (url: any) => axios.get(url).then(res => res.data);
   const { data, error } = useSWR('http://localhost:3001/api/category', fetcher);
-  
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      checkBacket();
+    }, 100);
+    return () => clearInterval(id);
+  }, []);
+
+  /* useEffect(() => {
+    setInterval(function() {
+      checkBacket()
+    }, 100);
+    
+
+
+    
+  }); */
+
+   function checkBacket() {
+      const backet = JSON.parse(localStorage.getItem ("Backet") || "");
+
+      if(backet != ""){
+        backet.forEach(function (element: any, index: any){
+          setCount(index+1)
+        });}
+  } 
+
   return (
     <div className="container">
       <Head>
@@ -55,8 +81,7 @@ function Main()  {
                   +7(747)-572-76-00</a>
                   
               </span>
-              <Button icon={<ShoppingCartOutlined />} type="primary" size='large' style={{position:'relative', right:"-74%",  top:'15%', marginBottom:-20, marginTop:-20, }}>Корзина</Button>
-
+              <Badge  count={count} style={{marginLeft:'200px'}}status="success" showZero={false} ></Badge><Button icon={<ShoppingCartOutlined />} type="primary" size='large' style={{ position:'relative', right:'-40%'}}>Корзина</Button>
 
               <Search placeholder="Введите название блюда" 
                       allowClear  style={{ width: "90%",
@@ -64,7 +89,7 @@ function Main()  {
                        }} size='large'/>
           </div>
                    
-            <Grid cards={data}></Grid>
+            <Grid cards={data} ></Grid>
           
         </div>
         

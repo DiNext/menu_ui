@@ -229,13 +229,13 @@ margin-left: 10px;
     flex-direction: column;
   }
   .content{
-    min-width: 100%
+    min-width: 585px;
   }
   .main{
-    min-width: 100%
+    min-width: 585px;
   }
   .container{
-    min-width:100%
+    min-width:585px;
   }
 }
 
