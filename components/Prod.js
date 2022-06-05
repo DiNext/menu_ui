@@ -6,22 +6,38 @@ const { Meta } = Card;
 export default function Prod({card})  {
     const [count, setCount] = useState(0);
     const [flag, setFlag] = useState(true);
-
+    const [flagCount, setFlagCount] = useState(false);
+    
     useEffect(() => {
+      const id = setInterval(() => {
+        checkBacket();
+      }, 300);
+
+      return () => clearInterval(id);
+    }, []);
+
+    function checkBacket() {
       const backet = JSON.parse(localStorage.getItem ("Backet"));
 
-      if(backet != ""){
-        backet.forEach(element => {
-          if(element.id == card.id){
-            setFlag(false);
-            setCount(element.qnty);
-          }
-        });
+      if(backet != "" && backet != null && backet != undefined){
+        const res = backet.some((function(item) {
+          if(item.id == card.id) card.qnty = item.qnty 
+          return (item.id == card.id);
+        }))
+
+        if(res){ 
+          setFlag(false);
+          setCount(card.qnty);
+          setFlagCount(true); 
+        } else{
+          setFlag(true);
+          
+        }
       } else{
         setFlag(true);
-        setCount(0);
+        
       }
-    });
+   } 
 
     function increment(e) {
       const backet = JSON.parse(localStorage.getItem ("Backet"));
@@ -92,7 +108,8 @@ export default function Prod({card})  {
           hoverable
           style={{
             width:"500px",
-            marginTop:20
+            marginTop:20,
+            boxShadow: "0 0 10px rgba(0,0,0,0.2)"
           }}
           actions={[
             flag ? <ShoppingCartOutlined onClick={addProdToBacket}/> : <CloseOutlined onClick={removeItem}/>,

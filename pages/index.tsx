@@ -1,11 +1,20 @@
 import Head from 'next/head';
-import { Drawer, Input, ConfigProvider, Button, Badge, Space } from 'antd';
+import { Drawer, Input, ConfigProvider, Button, Badge, Space, Table, Form} from 'antd';
 import { ShoppingCartOutlined, EnvironmentOutlined, PhoneOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
-import { MouseEventHandler, useState, useEffect } from 'react';
+import React,{ MouseEventHandler, useState, useEffect } from 'react';
 import Grid from '../components/Grid.js';
 import useSWR from 'swr';
 import axios from 'axios';
 import 'antd/dist/antd.variable.min.css'
+import type { ColumnsType } from 'antd/lib/table';
+
+interface DataType {
+  key: React.Key;
+  name: string;
+  price: number;
+  qnty: string;
+  id: number
+}
 
 const { Search } = Input;
 
@@ -21,6 +30,7 @@ function Main()  {
   const [count, setCount] = useState(0);
   const [visible, setVisible] = useState(false);
   const [backetData, setBacketData] = useState([]);
+  const [childrenDrawer, setChildrenDrawer] = useState(false);
 
   const showLargeDrawer = () => {
     setVisible(true);
@@ -44,7 +54,7 @@ function Main()  {
         }
       } 
     })
-
+    console.log(backetData)
     localStorage.setItem ("Backet", JSON.stringify(backetData));
   }
 
@@ -58,12 +68,12 @@ function Main()  {
    function checkBacket() {
      try{
       const backet = JSON.parse(localStorage.getItem ("Backet") || "");
-
-      if(backet != ""){
+      setBacketData(backet);
+      
+      if(backet != ""){ 
         backet.forEach(function (element: any, index: any){
           setCount(index + 1)
         });
-        setBacketData(backet);
       } else{
         setCount(0)
       }
@@ -74,6 +84,57 @@ function Main()  {
   const onClose = () => {
     setVisible(false);
   };
+
+  const sum = () => {
+    let sum = 0;
+    try{
+      backetData.forEach((element) => {
+        sum += Number(element['price'] * element['qnty'])
+      });
+      return "Итого: " + sum + ' тг.';
+    }catch{
+      return "Добавьте блюдо в корзину."
+    }
+  }
+
+  const columns: ColumnsType<DataType> = [
+    {
+      title: 'Название',
+      dataIndex: 'name',
+    },
+    {
+      title: 'Количество',
+      dataIndex: 'qnty',
+      render: (text, record) => <><a><PlusOutlined  style={{marginRight:'8px'}}onClick={()=>{increment(record['id'])}} key="edit" /></a> {text} <a><MinusOutlined style={{marginLeft:'8px'}} onClick={(e)=>{decrement(record['id'])}} key="ellipsis" /></a></>,
+    },
+    {
+      title: 'Цена',
+      dataIndex: 'price',
+      render: (text, record) => <>{(Number(record.qnty) * record.price) + " тг."}</>
+    },
+  ];
+
+  const showChildrenDrawer = () => {
+    setChildrenDrawer(true);
+  };
+
+  const onChildrenDrawerClose = () => {
+    setChildrenDrawer(false);
+  };
+  
+  function onFinish(){
+    setVisible(false)
+    setChildrenDrawer(false)
+    localStorage.setItem ("Backet", JSON.stringify(""));
+  }
+
+  const buttonPay = () => {
+    return <Button type="primary" onClick={showChildrenDrawer}>Оформить заказ!</Button>
+  }
+
+  const buttonMenu = () => {
+    return <Button type="primary" onClick={onClose}>Вернутся в меню</Button>
+  }
 
   return (
     <div className="container">
@@ -125,23 +186,53 @@ function Main()  {
         title={`Корзина`}
         placement="right"
         closable={false}
-        width={500}
+        width={"70%"}
         onClose={onClose}
         visible={visible}
         extra={
           <Space>
             <Button onClick={onClose}>Отмена</Button>
-            <Button type="primary" onClick={onClose}>
-              Оформить заказ!
-            </Button>
+            {React.createElement(backetData && backetData.length ! ?  buttonPay: buttonMenu, {}) }
           </Space>
         }
       >
-        {
-          backetData.map((card) => (
-            <div style={{display:"flex"}}><p style={{width:"260px"}}>{card['name']}</p><PlusOutlined  style={{marginLeft:'100px'}}onClick={()=>{increment(card['id'])}} key="edit" /> <p style={{marginLeft:'5px'}}> {card['qnty'] + " шт."}</p><MinusOutlined style={{marginLeft:'5px'}} onClick={(e)=>{decrement(card['id'])}} key="ellipsis" /></div>
-          ))
-        }
+            <div style={{display:"flex", width:"100%"}}>
+              <Table style={{width:"100%"}} columns={columns} pagination={false} dataSource={backetData} size="middle" footer={sum}/>
+            </div>
+            <Drawer
+            title="Заказ"
+            width={"70%"}
+            closable={false}
+            onClose={onChildrenDrawerClose}
+            visible={childrenDrawer}
+          >
+            <Form
+            layout="vertical"
+            style={{maxWidth:450}}
+            onFinish={onFinish}
+            
+            >   
+                <Input.Group >
+                  <Form.Item name="name" label="Ваше имя" rules={[{ required: true, message: 'Введите ваше имя!' }]}>
+                      <Input />
+                  </Form.Item>
+                  <Form.Item name="tel" label="Телефон" rules={[{ required: true, message: 'Введите номер телефона!' }]}>
+                      <Input  maxLength={10} addonBefore="+7"/>
+                  </Form.Item>
+                  <Form.Item name="address" label="Адрес" rules={[{ required: true, message: 'Введите адрес!' }]}>
+                      <Input style={{ width: '100%', height:33 }} />
+                  </Form.Item>
+                  <Form.Item name="comment" label="Комментарий" >
+                      <Input.TextArea style={{ minHeight:100 }}/>
+                  </Form.Item>
+                  <p style={{fontSize:"16px"}}>{sum()}</p>
+                  <Form.Item >
+                      <Button type="primary" htmlType='submit'>Заказать!</Button>
+                      <Button style={{marginLeft: 20}} onClick={onChildrenDrawerClose}>Отмена</Button>
+                  </Form.Item>
+                </Input.Group>
+            </Form>
+          </Drawer>
       </Drawer>
       </main>
 
