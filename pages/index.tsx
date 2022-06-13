@@ -122,7 +122,24 @@ function Main()  {
     setChildrenDrawer(false);
   };
   
-  function onFinish(){
+  function onFinish(values: any){
+    let order = '';
+    backetData.forEach(function (element: any){
+      order += `${element.name} ${element.qnty}шт. `
+    })
+
+    const text = `Новый заказ!%0AИмя: ${values['name']}.%0AТелефон: ${values['tel']}.%0AАдрес: ${values['address']}.%0AКомментарий: ${values['comment']}.%0AЗаказ: ${order}`
+
+    const options = {
+      url: `https://api.telegram.org/bot5527777720:AAEnirVmNAbYX1qDLBtjuJmGRERxbmBBW-0/sendMessage?chat_id=489950830&text=${text}`,
+      method: 'GET'
+    };
+    
+    axios(options)
+      .then(response => {
+        console.log(response.status);
+      });
+
     setVisible(false)
     setChildrenDrawer(false)
     localStorage.setItem ("Backet", JSON.stringify(""));
