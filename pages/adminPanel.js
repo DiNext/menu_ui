@@ -19,7 +19,7 @@ function AdminPanel({categories}) {
 
   useEffect(async () =>  {
     const categories = await axios.get('http://216556.fornex.cloud:3001/api/category').then(res => res.data)
-    
+
     setCards(categories)
   }, []);
 
@@ -89,7 +89,7 @@ function AdminPanel({categories}) {
               justifyContent: "left",
               flexDirection: "row"
             }}> 
-            {React.createElement(select == "prods" ? Prods : Category, {categories: [] }) }     
+            {React.createElement(select == "prods" ? Prods : Category, {categories: cards }) }     
           </Content>
         </Layout>
       </Layout>);
