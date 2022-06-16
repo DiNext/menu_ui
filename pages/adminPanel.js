@@ -10,12 +10,11 @@ import { useRouter } from 'next/router';
 
 const { Header, Sider, Content } = Layout;
 
-function AdminPanel() {
+function AdminPanel({categories}) {
   const [collapsed, setToggle] = useState(false);
   const [select, setSelect] = useState('prods');
 
-  const fetcher = (url) => axios.get(url).then(res => res.data);
-  const { categories, error } = useSWR('http://216556.fornex.cloud:3001/api/category', fetcher);
+ 
 
   const cookie = new cookieManager();
   const router = useRouter();
@@ -90,6 +89,17 @@ function AdminPanel() {
           </Content>
         </Layout>
       </Layout>);
+}
+
+AdminPanel.getInitialProps = async (ctx) => {
+  const categories = await axios.get('http://localhost:3001/api/category').then(res => res.data)
+  
+  console.log(categories);
+  return {
+    props: {
+      categories
+    },
+  }
 }
 
 export default AdminPanel;
