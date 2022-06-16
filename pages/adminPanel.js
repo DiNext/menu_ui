@@ -10,9 +10,10 @@ import { useRouter } from 'next/router';
 
 const { Header, Sider, Content } = Layout;
 
-function AdminPanel({ categories, cardsChildren }) {
+function AdminPanel() {
   const [collapsed, setToggle] = useState(false);
   const [select, setSelect] = useState('prods');
+  const { categories, error } = useSWR('http://216556.fornex.cloud:3001/api/category', fetcher);
 
   const cookie = new cookieManager();
   const router = useRouter();
@@ -83,7 +84,7 @@ function AdminPanel({ categories, cardsChildren }) {
               justifyContent: "left",
               flexDirection: "row"
             }}> 
-            {React.createElement(select == "prods" ? Prods : Category, {categories: categories, cardsChildren: cardsChildren}) }     
+            {React.createElement(select == "prods" ? Prods : Category, {categories: categories }) }     
           </Content>
         </Layout>
       </Layout>);
