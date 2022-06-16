@@ -17,6 +17,11 @@ function AdminPanel({categories}) {
   const cookie = new cookieManager();
   const router = useRouter();
 
+  useEffect(async () =>  {
+    const categories = await axios.get('http://216556.fornex.cloud:3001/api/category').then(res => res.data)
+    
+    setCards(categories)
+  }, []);
 
   if (typeof window !== "undefined") {
     const ck = cookie.getCookie('auth_token');
@@ -91,11 +96,11 @@ function AdminPanel({categories}) {
 }
 
 
-export async function getServerSideProps(context) {
+/* export async function getServerSideProps(context) {
   const categories = await axios.get('http://216556.fornex.cloud:3001/api/category').then(res => res.data)
   return {
     props: {categories: categories}
   }
-}
+} */
 
 export default AdminPanel;
