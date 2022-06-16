@@ -13,7 +13,7 @@ const { Header, Sider, Content } = Layout;
 function AdminPanel({categories}) {
   const [collapsed, setToggle] = useState(false);
   const [select, setSelect] = useState('prods');
-  
+  const [cards, setCards] = useState([]);
   const cookie = new cookieManager();
   const router = useRouter();
 
@@ -23,8 +23,10 @@ function AdminPanel({categories}) {
     if(ck == undefined){
       router.push('/auth');
     }
+  } 
+  if(categories != undefined){
+    setCards(categories)
   }
-
   function handleToggle() {
     setToggle(!collapsed);
   };
@@ -83,13 +85,13 @@ function AdminPanel({categories}) {
               justifyContent: "left",
               flexDirection: "row"
             }}> 
-            {React.createElement(select == "prods" ? Prods : Category, {categories: [] }) }     
+            {React.createElement(select == "prods" ? Prods : Category, {categories: cards }) }     
           </Content>
         </Layout>
       </Layout>);
 }
 
-/* AdminPanel.getInitialProps = async (ctx) => {
+AdminPanel.getInitialProps = async (ctx) => {
   const categories = await axios.get('http://216556.fornex.cloud:3001/api/category').then(res => res.data)
   
   console.log(categories);
@@ -98,6 +100,6 @@ function AdminPanel({categories}) {
       categories: categories
     
   }
-} */
+} 
 
 export default AdminPanel;
