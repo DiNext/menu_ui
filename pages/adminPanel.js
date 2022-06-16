@@ -90,7 +90,7 @@ function AdminPanel({ categories, cardsChildren }) {
 }
 
 export async function getStaticProps() {
-  const categories = await axios.get('http://localhost:3001/api/category').then(res => res.data)
+  const categories = await axios.get('http://216556.fornex.cloud:3001/api/category').then(res => res.data)
 
   return {
     props: {
