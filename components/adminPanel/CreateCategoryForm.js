@@ -77,7 +77,7 @@ function CreateCategoryForm (props) {
                 }
         }
 
-        await axios.post('http://localhost:3001/api/category', body, config);
+        await axios.post('http://216556.fornex.cloud:3001/api/category', body, config);
         router.reload(window.location.pathname);
         props.onChange();
         } else{
