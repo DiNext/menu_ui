@@ -38,7 +38,7 @@ export default function AdminPanelCategoty(props) {
           }
       }
 
-      await axios.delete(`http://localhost:3001/api/category?id=${id}`, config);
+      await axios.delete(`http://216556.fornex.cloud:3001/api/category?id=${id}`, config);
 
       setDel(false);
       router.reload(window.location.pathname);
