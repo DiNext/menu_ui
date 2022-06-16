@@ -92,15 +92,4 @@ function AdminPanel() {
       </Layout>);
 }
 
-export async function getStaticProps() {
-  const categories = await axios.get('http://216556.fornex.cloud:3001/api/category').then(res => res.data)
-  
-  console.log(categories);
-  return {
-    props: {
-      categories
-    },
-  }
-}
-
 export default AdminPanel;
