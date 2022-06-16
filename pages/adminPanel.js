@@ -89,7 +89,7 @@ function AdminPanel({categories}) {
       </Layout>);
 }
 
-AdminPanel.getInitialProps = async (ctx) => {
+/* AdminPanel.getInitialProps = async (ctx) => {
   const categories = await axios.get('http://216556.fornex.cloud:3001/api/category').then(res => res.data)
   
   console.log(categories);
@@ -98,6 +98,6 @@ AdminPanel.getInitialProps = async (ctx) => {
       categories: categories
     
   }
-}
+} */
 
 export default AdminPanel;
