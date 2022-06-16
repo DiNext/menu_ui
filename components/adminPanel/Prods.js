@@ -20,7 +20,10 @@ export default function AdminPanelProds({categories}) {
     const router = useRouter()
     const cards = categories.filter(cards => cards.parent == null);
 
+
     if(categories != undefined, categories.length != 0){
+      console.log(categories)
+      
       getFiniteValue(cards)
       function getFiniteValue(obj) {
         getProp(obj);

@@ -14,8 +14,6 @@ function AdminPanel({categories}) {
   const [collapsed, setToggle] = useState(false);
   const [select, setSelect] = useState('prods');
 
- 
-
   const cookie = new cookieManager();
   const router = useRouter();
 
@@ -96,9 +94,9 @@ AdminPanel.getInitialProps = async (ctx) => {
   
   console.log(categories);
   return {
-    props: {
-      categories
-    },
+    
+      categories: categories
+    
   }
 }
 
