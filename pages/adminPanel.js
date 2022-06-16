@@ -13,6 +13,8 @@ const { Header, Sider, Content } = Layout;
 function AdminPanel() {
   const [collapsed, setToggle] = useState(false);
   const [select, setSelect] = useState('prods');
+
+  const fetcher = (url) => axios.get(url).then(res => res.data);
   const { categories, error } = useSWR('http://216556.fornex.cloud:3001/api/category', fetcher);
 
   const cookie = new cookieManager();
