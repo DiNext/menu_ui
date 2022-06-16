@@ -83,7 +83,7 @@ function AdminPanel({categories}) {
               justifyContent: "left",
               flexDirection: "row"
             }}> 
-            {React.createElement(select == "prods" ? Prods : Category, {categories: categories }) }     
+            {React.createElement(select == "prods" ? Prods : Category, {categories: [] }) }     
           </Content>
         </Layout>
       </Layout>);
