@@ -13,7 +13,7 @@ module.exports = withPlugins(
     }),
   ],
   {
-    reactStrictMode: true,
+    reactStrictMode: false,
     swcMinify: true,
 
     eslint: {
