@@ -1,5 +1,5 @@
 import { Layout, Menu } from 'antd';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MenuUnfoldOutlined,MenuFoldOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import useSWR from 'swr';
@@ -17,6 +17,8 @@ function AdminPanel({categories}) {
   const cookie = new cookieManager();
   const router = useRouter();
 
+  useEffect(() => {    setCards(categories)  });
+
   if (typeof window !== "undefined") {
     const ck = cookie.getCookie('auth_token');
 
@@ -24,9 +26,7 @@ function AdminPanel({categories}) {
       router.push('/auth');
     }
   } 
-  if(categories != undefined){
-    setCards(categories)
-  }
+  
   function handleToggle() {
     setToggle(!collapsed);
   };
