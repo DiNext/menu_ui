@@ -8,7 +8,7 @@ function Auth () {
   const router = useRouter();
 
   const onFinish = (values) => {
-    axios.post('http://localhost:3001/auth/login', {login: values.username, password: values.password})
+    axios.post('http://216556.fornex.cloud:3001/auth/login', {login: values.username, password: values.password})
          .then(res => cookie.setCookie('auth_token', res.data.data.token, 1));
     router.push('/adminPanel');
   }
