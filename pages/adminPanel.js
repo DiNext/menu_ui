@@ -17,7 +17,6 @@ function AdminPanel({categories}) {
   const cookie = new cookieManager();
   const router = useRouter();
 
-  useEffect(() => {    setCards(categories)  });
 
   if (typeof window !== "undefined") {
     const ck = cookie.getCookie('auth_token');
@@ -85,21 +84,18 @@ function AdminPanel({categories}) {
               justifyContent: "left",
               flexDirection: "row"
             }}> 
-            {React.createElement(select == "prods" ? Prods : Category, {categories: cards }) }     
+            {React.createElement(select == "prods" ? Prods : Category, {categories: categories }) }     
           </Content>
         </Layout>
       </Layout>);
 }
 
-AdminPanel.getInitialProps = async (ctx) => {
+
+export async function getServerSideProps(context) {
   const categories = await axios.get('http://216556.fornex.cloud:3001/api/category').then(res => res.data)
-  
-  console.log(categories);
   return {
-    
-      categories: categories
-    
+    props: {categories: categories}, // will be passed to the page component as props
   }
-} 
+}
 
 export default AdminPanel;
