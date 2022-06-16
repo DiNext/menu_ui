@@ -84,7 +84,7 @@ function AdminPanel({categories}) {
               justifyContent: "left",
               flexDirection: "row"
             }}> 
-            {React.createElement(select == "prods" ? Prods : Category, {categories: categories }) }     
+            {React.createElement(select == "prods" ? Prods : Category, {categories: [] }) }     
           </Content>
         </Layout>
       </Layout>);
@@ -94,7 +94,7 @@ function AdminPanel({categories}) {
 export async function getServerSideProps(context) {
   const categories = await axios.get('http://216556.fornex.cloud:3001/api/category').then(res => res.data)
   return {
-    props: {categories: categories}, // will be passed to the page component as props
+    props: {categories: categories}
   }
 }
 
