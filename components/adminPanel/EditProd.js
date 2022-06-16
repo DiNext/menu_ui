@@ -76,7 +76,7 @@ function EditProd (props) {
                     'Authorization': 'Bearer ' + token
                 }
             }
-            await axios.put(`http://localhost:3001/api/prods?id=${id}`, body, config);
+            await axios.put(`http://216556.fornex.cloud:3001/api/prods?id=${id}`, body, config);
             router.reload(window.location.pathname);
             props.onChange(); 
     }
