@@ -26,7 +26,7 @@ ConfigProvider.config({
 
 function Main()  {
   const fetcher = (url: any) => axios.get(url).then(res => res.data);
-  const { data, error } = useSWR('http://localhost:3001/api/category', fetcher);
+  const { data, error } = useSWR('https://localhost:3001/api/category', fetcher);
   const [count, setCount] = useState(0);
   const [visible, setVisible] = useState(false);
   const [backetData, setBacketData] = useState([]);
