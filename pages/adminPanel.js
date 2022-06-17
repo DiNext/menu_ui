@@ -18,7 +18,7 @@ function AdminPanel({categories}) {
   const router = useRouter();
 
   useEffect(async () =>  {
-    const categories = await axios.get('http://216556.fornex.cloud:3001/api/category').then(res => res.data)
+    const categories = await axios.get('https://vkus-vostoka.kz/api/category').then(res => res.data)
 
     setCards(categories)
   }, []);
@@ -94,13 +94,5 @@ function AdminPanel({categories}) {
         </Layout>
       </Layout>);
 }
-
-
-/* export async function getServerSideProps(context) {
-  const categories = await axios.get('http://216556.fornex.cloud:3001/api/category').then(res => res.data)
-  return {
-    props: {categories: categories}
-  }
-} */
 
 export default AdminPanel;

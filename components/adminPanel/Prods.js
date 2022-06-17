@@ -61,7 +61,7 @@ export default function AdminPanelProds({categories}) {
         }
       }
 
-      const res = await axios.get(`http://216556.fornex.cloud:3001/api/prods/find?id=${id}`, config);
+      const res = await axios.get(`https://vkus-vostoka.kz/api/prods/find?id=${id}`, config);
       setData(res.data);
       res.data.forEach
     }
@@ -81,7 +81,7 @@ export default function AdminPanelProds({categories}) {
           }
       }
 
-      await axios.delete(`http://216556.fornex.cloud:3001/api/prods?id=${id}`, config);
+      await axios.delete(`https://vkus-vostoka.kz/api/prods?id=${id}`, config);
 
       setDel(false);
       router.reload(window.location.pathname);

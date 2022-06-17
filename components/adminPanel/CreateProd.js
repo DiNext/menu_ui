@@ -65,7 +65,7 @@ function CreateProd (props) {
                 }
         }
 
-        await axios.post('http://l216556.fornex.cloud:3001/api/prods', body, config);
+        await axios.post('https://vkus-vostoka.kz/api/prods', body, config);
         router.reload(window.location.pathname);
         props.onChange();
 
