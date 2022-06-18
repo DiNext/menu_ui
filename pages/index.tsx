@@ -8,6 +8,8 @@ import axios from 'axios';
 import 'antd/dist/antd.variable.min.css'
 import Link from "next/link";
 import type { ColumnsType } from 'antd/lib/table';
+import { stat } from 'fs';
+
 
 interface DataType {
   key: React.Key;
@@ -28,15 +30,24 @@ ConfigProvider.config({
 function Main()  {
   const fetcher = (url: any) => axios.get(url).then(res => res.data);
   const { data, error } = useSWR('https://vkus-vostoka.kz/api/category', fetcher);
+
+  const [prods, setProds] = useState(null as any);
+  const [status, setStatus] = useState('default' as any);
+  const [listProds, setListProds] = useState([] as any);
   const [count, setCount] = useState(0);
+  const [item, setItem] = useState('Кухня');
+  const [typeChicken, setTypeChicken] = useState('primary'as any);
+  const [typeChickenBar, setTypeChickenBar] = useState('default' as any);
   const [visible, setVisible] = useState(false);
   const [backetData, setBacketData] = useState([]);
   const [childrenDrawer, setChildrenDrawer] = useState(false);
 
+  
   const showLargeDrawer = () => {
     setVisible(true);
   };
-
+   
+  
   function increment(cardId : any) {
     backetData.forEach(function (element: any) {
       element.id == cardId ? element.qnty += 1 : console.log(1); 
@@ -58,6 +69,15 @@ function Main()  {
     console.log(backetData)
     localStorage.setItem ("Backet", JSON.stringify(backetData));
   }
+  async function getProds() {
+    const response = await axios.get('https://vkus-vostoka.kz/api/category').then(res => res.data);
+    setProds(response);
+  }
+  useEffect(() => {
+    getProds();
+    
+    
+  }, []);
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -86,6 +106,25 @@ function Main()  {
     setVisible(false);
   };
 
+  const onChicken = () => {
+    if(typeChicken == 'primary') {
+      return
+    }else{
+      setTypeChicken('primary');
+      setTypeChickenBar('default');
+      setItem('Кухня')
+    }
+    
+  };
+  const onBar = () => {
+    if(typeChickenBar == 'primary') {
+      return
+    }else{
+      setTypeChickenBar('primary');
+      setTypeChicken('default');
+      setItem('Бар')
+    }
+  };
   const sum = () => {
     let sum = 0;
     try{
@@ -154,11 +193,43 @@ function Main()  {
     return <Button type="primary" onClick={onClose}>Вернутся в меню</Button>
   }
 
+  const onClear = () => {
+    
+    setListProds([]);
+  }
+  
+  const onSearch = (value: any, event: any) => {
+    console.log(value);
+    let list = [] as any;
+    if(value === "") {
+      list = []
+      setStatus('default')
+    } else {
+      let flag = true;
+      prods.forEach((element: any) => {
+        if(element.name.toLowerCase().includes(value.toLowerCase())){
+          list.push(element)
+          flag = false
+        }
+      });
+      if(flag == true) {
+        setStatus('error')
+      }else{
+        setStatus('default')
+      }
+    }
+    
+    setListProds(list);
+  }
+
   return (
     <div className="container">
       <Head>
-        <title>Электронное меню</title>
+        <title>Вкус Востока</title>
         <link rel="icon" href="/images/logo.jpg" />
+        <link rel="preconnect" href="https://fonts.googleapis.com"></link>
+        <link rel="preconnect" href="https://fonts.gstatic.com" ></link>
+        <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet"></link>
       </Head>
 
       <main>
@@ -175,29 +246,32 @@ function Main()  {
         <div className='content'>
           <div className='description_title'>
               <span className="span">     
-                <h4>Ресторан Вкус Востока</h4>              
+                <h4 style={{fontFamily: 'Lobster', fontSize:40, color:"#AF8700", marginTop:-10}}>Ресторан Вкус Востока</h4>              
               </span>
               
               <span className="desc">
               
-                <a href="https://goo.gl/maps/U5i8DJTP44nzSBXZ6" target="_blank" >
+                <a href="https://goo.gl/maps/U5i8DJTP44nzSBXZ6" target="_blank" style={{marginTop:-10}}>
                 <EnvironmentOutlined />
                 г. Тараз ул. Кошеней 34/1</a>
                 
-                <a href="tel:+77475727600" className='tel'>
+                <a href="tel:+77475727600" className='tel' style={{marginTop:-10}}>
                 <PhoneOutlined/>
                   +7(700)-504-88-88</a>
-                  
+                  <div style={{position:'relative', left:'-60%', marginTop:30}}>
+                    <Button type={typeChicken} style={{marginRight:10} }shape="round" onClick={onChicken}> Основное меню</Button>  
+                    <Button type={typeChickenBar} onClick={onBar}shape="round"> Бар</Button> 
+                  </div>
               </span>
-              <div style={{position: 'relative', left:'74%', width:100}} onClick={showLargeDrawer}><Badge  count={count} style={{marginLeft:'200px'}}status="success" showZero={false} ><Button icon={<ShoppingCartOutlined />} type="primary" size='large' >Корзина</Button></Badge></div>
+              <div style={{position: 'relative', left:'74%', top:"5%", width:100}} onClick={showLargeDrawer}><Badge  count={count} style={{marginLeft:'200px'}}status="success" showZero={false} ><Button icon={<ShoppingCartOutlined />} type="primary" size='large' >Корзина</Button></Badge></div>
 
               <Search placeholder="Введите название блюда" 
                       allowClear  style={{ width: "90%",
-                      marginLeft: "27px", marginTop: "45px",
-                       }} size='large'/>
+                      marginLeft: "27px", marginTop: "25px",
+                       }} size='large' onSearch={onSearch} status={status}/>
           </div>
                    
-            <Grid cards={data} ></Grid>
+            <Grid cards={data} item={item} listProds={listProds} onChange={onClear}></Grid>
           
         </div>
         <Drawer
