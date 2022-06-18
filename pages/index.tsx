@@ -258,7 +258,7 @@ function Main()  {
                 <a href="tel:+77475727600" className='tel' style={{marginTop:-10}}>
                 <PhoneOutlined/>
                   +7(700)-504-88-88</a>
-                  <div id="buttons" style={{position:'relative', left:'-43%', marginTop:30, marginLeft:-100, marginRight:-100}}>
+                  <div className="buttons" style={{position:'relative', left:'-33%', marginTop:30, marginLeft:-150, marginRight:-150}}>
                     <Button type={typeChicken} style={{marginRight:10} }shape="round" onClick={onChicken}> Основное меню</Button>  
                     <Button type={typeChickenBar} onClick={onBar}shape="round"> Бар</Button> 
                   </div>

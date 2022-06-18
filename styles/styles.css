@@ -249,8 +249,10 @@ margin-left: 10px;
   .title{
     min-width:585px;
   }
-  #buttons{
-    left: -50%;
+  .buttons{
+    left: -60%;
+    margin-left:0;
+    font-size: 100px;
   }
 }
 @media screen and (-webkit-min-device-pixel-ratio:0) { 
