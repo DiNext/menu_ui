@@ -223,11 +223,12 @@ margin-left: 10px;
 @media (max-width: 600px) {
   .grid {
     min-width: 100%;
-    
     flex-direction: column;
   }
   .content{
     min-width: 585px;
+    border-bottom:none;
+    box-shadow: 0 0 0 0;
   }
   .main{
     min-width: 585px;

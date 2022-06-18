@@ -1,11 +1,12 @@
 import Head from 'next/head';
 import { Drawer, Input, ConfigProvider, Button, Badge, Space, Table, Form} from 'antd';
-import { ShoppingCartOutlined, EnvironmentOutlined, PhoneOutlined, PlusOutlined, MinusOutlined } from '@ant-design/icons';
-import React,{ MouseEventHandler, useState, useEffect } from 'react';
+import { ShoppingCartOutlined, EnvironmentOutlined, PhoneOutlined, PlusOutlined, InstagramOutlined, MinusOutlined } from '@ant-design/icons';
+import React,{  useState, useEffect } from 'react';
 import Grid from '../components/Grid.js';
 import useSWR from 'swr';
 import axios from 'axios';
 import 'antd/dist/antd.variable.min.css'
+import Link from "next/link";
 import type { ColumnsType } from 'antd/lib/table';
 
 interface DataType {
@@ -181,11 +182,11 @@ function Main()  {
               
                 <a href="https://goo.gl/maps/KT63x3U4Cxk6Nrgs9" target="_blank" >
                 <EnvironmentOutlined />
-                г. Тараз ул. Толе би 61А</a>
+                г. Тараз ул. Кошеней 34/1</a>
                 
                 <a href="tel:+77475727600" className='tel'>
                 <PhoneOutlined/>
-                  +7(747)-572-76-00</a>
+                  +7(700)-504-88-88</a>
                   
               </span>
               <div style={{position: 'relative', left:'74%', width:100}} onClick={showLargeDrawer}><Badge  count={count} style={{marginLeft:'200px'}}status="success" showZero={false} ><Button icon={<ShoppingCartOutlined />} type="primary" size='large' >Корзина</Button></Badge></div>
@@ -253,8 +254,10 @@ function Main()  {
       </Drawer>
       </main>
 
-      <footer>
-      
+      <footer style={{height:45}}>
+      <Link href="https://www.instagram.com/vkusvostoka_kz/?igshid=NDBIY2NjN2I=" >    
+        <a target="_blank" style={{fontSize:35}}><InstagramOutlined /></a>
+      </Link>
       </footer>
     </div>
   )}
