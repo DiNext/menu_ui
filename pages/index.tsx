@@ -70,7 +70,7 @@ function Main()  {
     localStorage.setItem ("Backet", JSON.stringify(backetData));
   }
   async function getProds() {
-    const response = await axios.get('https://vkus-vostoka.kz/api/category').then(res => res.data);
+    const response = await axios.get('https://vkus-vostoka.kz/api/prods').then(res => res.data);
     setProds(response);
   }
   useEffect(() => {
@@ -122,7 +122,7 @@ function Main()  {
     }else{
       setTypeChickenBar('primary');
       setTypeChicken('default');
-      setItem('Бар')
+      setItem('Бар');
     }
   };
   const sum = () => {
@@ -194,7 +194,6 @@ function Main()  {
   }
 
   const onClear = () => {
-    
     setListProds([]);
   }
   

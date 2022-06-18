@@ -3,7 +3,7 @@ import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import Prod from "./Prod"
 
-export default function Grid({cards, item, listProds, onChange})  {
+export default function Grid({ cards, item, listProds, onChange })  {
     const [selectedItem, setSelectedItem] = useState(null);
 
     function onBack(e) {
@@ -29,7 +29,7 @@ export default function Grid({cards, item, listProds, onChange})  {
           <Button shape="circle" icon={<ArrowLeftOutlined /> } size="large" style={{marginTop:34, marginLeft: 23, marginBottom:-30}} onClick={onBack}/>
         <div className="grid">
         {selectedItem.children.map((card) => (
-          <div style={{backgroundImage: `url(${card.image})`, backgroundSize: "cover"}} onClick={e=>{setSelectedItem(card)}}className="card" key={card.index} data={card}>
+          <div style={{backgroundImage: `url(${card.image})`, backgroundSize: "cover"}} onClick={e=>{setSelectedItem(card); window.scrollTo({ top: 0, behavior: 'smooth' });}}className="card" key={card.index} data={card}>
               <a>
                   <h2 className='category_title'>{card.name}</h2>
               </a>
@@ -57,7 +57,7 @@ export default function Grid({cards, item, listProds, onChange})  {
       return (
         <div className="grid">
           {categoryRoot[0].children.map((card) => (
-          <div style={{backgroundImage: `url(${card.image})`, backgroundSize: "cover"}} onClick={e=>{setSelectedItem(card)}}className="card" key={card.index} data={card}>
+          <div style={{backgroundImage: `url(${card.image})`, backgroundSize: "cover"}} onClick={e=>{setSelectedItem(card); window.scrollTo({ top: 0, behavior: 'smooth' });}} className="card" key={card.index} data={card}>
               <a>
                   <h2 className='category_title'>{card.name}</h2>
               </a>
