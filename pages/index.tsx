@@ -230,7 +230,6 @@ function Main()  {
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
         <link rel="preconnect" href="https://fonts.gstatic.com" ></link>
         <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet"></link>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"></meta>
       </Head>
 
       <main>
@@ -259,7 +258,7 @@ function Main()  {
                 <a href="tel:+77475727600" className='tel' style={{marginTop:-10}}>
                 <PhoneOutlined/>
                   +7(700)-504-88-88</a>
-                  <div style={{position:'relative', left:'-43%', marginTop:30, marginLeft:-100, marginRight:-100}}>
+                  <div id="buttons" style={{position:'relative', left:'-43%', marginTop:30, marginLeft:-100, marginRight:-100}}>
                     <Button type={typeChicken} style={{marginRight:10} }shape="round" onClick={onChicken}> Основное меню</Button>  
                     <Button type={typeChickenBar} onClick={onBar}shape="round"> Бар</Button> 
                   </div>
