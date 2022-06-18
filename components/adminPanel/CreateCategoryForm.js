@@ -44,10 +44,13 @@ function CreateCategoryForm (props) {
                 };
                 const formData = new FormData();
                 
-                formData.append('theFiles', image);
-                await axios.post('/api/uploads', formData, config);
-
-                imageURL = image.name;
+                formData.append('image', image);
+                try{
+                    await axios.post('https://api.imgbb.com/1/upload?key=8b2b93aaf0b8e6ca1e7c94a10f33ac2d', formData, config)
+                    .then(res => imageURL = res.data.data.display_url);
+                } catch{
+                    router.reload(window.location.pathname);
+                }
             } 
 
             let token;

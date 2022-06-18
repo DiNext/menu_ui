@@ -28,7 +28,7 @@ export default function Grid({cards})  {
           <Button shape="circle" icon={<ArrowLeftOutlined />} style={{marginTop:20, marginLeft: 20, marginBottom:-30}} onClick={onBack}/>
         <div className="grid">
         {selectedItem.children.map((card) => (
-          <div style={{backgroundImage: `url(../images/${card.image})`, backgroundSize: "cover"}} onClick={e=>{setSelectedItem(card)}}className="card" key={card.index} data={card}>
+          <div style={{backgroundImage: `url(${card.image})`, backgroundSize: "cover"}} onClick={e=>{setSelectedItem(card)}}className="card" key={card.index} data={card}>
               <a>
                   <h2 className='category_title'>{card.name}</h2>
               </a>
@@ -49,7 +49,7 @@ export default function Grid({cards})  {
       return (
         <div className="grid">
           {categoryRoot.map((card) => (
-            <div style={{backgroundImage: `url(../images/${card.image})`, backgroundSize: "cover"}} onClick={e=>{setSelectedItem(card)}}className="card" key={card.index} data={card.prods}>
+            <div style={{backgroundImage: `url(${card.image})`, backgroundSize: "cover"}} onClick={e=>{setSelectedItem(card)}}className="card" key={card.index} data={card.prods}>
                 <a>
                     <h2 className='category_title'>{card.name}</h2>
                 </a>
