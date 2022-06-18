@@ -267,7 +267,7 @@ function Main()  {
 
               <Search placeholder="Введите название блюда" 
                       allowClear  style={{ width: "90%",
-                      marginLeft: "27px", marginTop: "25px",
+                      marginLeft: "27px", marginTop: "25px", fontSize: "16px"
                        }} size='large' onSearch={onSearch} status={status}/>
           </div>
                    
