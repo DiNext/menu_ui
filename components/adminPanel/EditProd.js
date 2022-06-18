@@ -38,7 +38,7 @@ function EditProd (props) {
                 const formData = new FormData();
                 
                 formData.append('theFiles', image);
-                await axios.post('/api/uploads', formData, config);
+                await axios.post('https://vkus-vostoka.kz/api/uploads', formData, config);
 
                 imageURL = image.name;
                 console.log(imageURL)

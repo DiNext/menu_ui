@@ -180,7 +180,7 @@ function Main()  {
               
               <span className="desc">
               
-                <a href="https://goo.gl/maps/KT63x3U4Cxk6Nrgs9" target="_blank" >
+                <a href="https://goo.gl/maps/U5i8DJTP44nzSBXZ6" target="_blank" >
                 <EnvironmentOutlined />
                 г. Тараз ул. Кошеней 34/1</a>
                 
