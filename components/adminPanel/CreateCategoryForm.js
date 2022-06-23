@@ -81,7 +81,7 @@ function CreateCategoryForm (props) {
         }
 
         await axios.post('https://vkus-vostoka.kz/api/category', body, config);
-        router.reload(window.location.pathname);
+
         props.onChange();
         } else{
             setTrigger(true);
@@ -104,7 +104,7 @@ function CreateCategoryForm (props) {
     }else{
         return (
             <Form
-            style={{width:'450px',position:"absolute", left: "40%", top:'30%'}}
+            style={{width:'500px',position:"relative", left: "20%", top:'-10%'}}
             labelCol= {{ span: 6.5 }}
             wrapperCol= {{ span: 20 }}
             onFinish={onFinish}

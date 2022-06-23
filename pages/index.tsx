@@ -8,8 +8,6 @@ import axios from 'axios';
 import 'antd/dist/antd.variable.min.css'
 import Link from "next/link";
 import type { ColumnsType } from 'antd/lib/table';
-import { stat } from 'fs';
-
 
 interface DataType {
   key: React.Key;
@@ -75,8 +73,6 @@ function Main()  {
   }
   useEffect(() => {
     getProds();
-    
-    
   }, []);
 
   useEffect(() => {
@@ -225,7 +221,7 @@ function Main()  {
     <div className="container">
       <Head>
         <title>Вкус Востока</title>
-        <link rel="icon" href="/images/logo.jpg" />
+        <link rel="icon" href="/images/logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
         <link rel="preconnect" href="https://fonts.gstatic.com" ></link>
         <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet"></link>
@@ -239,7 +235,7 @@ function Main()  {
             </div>
           </div>
           <div className='icon'>
-          <img src="/images/logo.jpg" alt="logo" className="title_icon" />
+          <img src="/images/logo.png" alt="logo" className="title_icon" />
           </div>
         </h1>
         <div className='content'>

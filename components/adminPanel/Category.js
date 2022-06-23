@@ -119,8 +119,8 @@ export default function AdminPanelCategoty(props) {
         return <EditCategoryForm onChange={handleEditCategory} categories={props.categories} selectedCategory={selectedCol}></EditCategoryForm>
       }else{
         return (<div style={{ width:"100%", height:"95%"}}>
-          <Table columns={columns} dataSource={data} style={{ width:"100%", height:"100%"}}/>
-          <Button onClick={handleCreateCategory} type="primary">Создать новую</Button>
+          <Button onClick={handleCreateCategory} type="primary" style={{marginLeft:'1%', position: 'relative', top: "-110px", left:'87%', margin:-100}}>Создать новую категорию</Button>
+          <Table columns={columns} dataSource={data} style={{ width:"100%", height:"100%", marginLeft:'1%', margin:0, marginTop:-60}}/>
       </div> ) 
       } 
 }

@@ -79,17 +79,17 @@ function EditProd (props) {
                 }
             }
             await axios.put(`https://vkus-vostoka.kz/api/prods?id=${id}`, body, config);
-            router.reload(window.location.pathname);
+
             props.onChange(); 
     }
         return (
             <Form
-            style={{width:'450px',position:"absolute", left: "40%", top:'30%'}}
+            style={{width:'500px',position:"relative", left: "20%", top:'-10%'}}
             labelCol= {{ span: 6.5 }}
             wrapperCol= {{ span: 20 }}
             onFinish={onFinish}
             size='large'
-            >   <h1 style={{fontSize:'21px', marginBottom:20}}>Редактирование продукции "{props.selectedProd.name}"</h1>
+            >   <h1 style={{fontSize:'21px', marginBottom:20, width:"700px"}}>Редактирование продукции "{props.selectedProd.name}"</h1>
                 <Form.Item name="name" label="Название" initialValue={props.selectedProd.name} rules={[{ required: true, message: 'Введите новое название!' }]}>
                     <Input />
                 </Form.Item>

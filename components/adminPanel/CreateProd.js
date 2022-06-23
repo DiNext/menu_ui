@@ -4,6 +4,7 @@ import { Form, Input, Button, Upload, Select, InputNumber } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import cookieManager from '../../src/managers/cookieManager';
 import axios from 'axios';
+import TextArea from 'antd/lib/input/TextArea';
 
 function CreateProd (props) {
     const [image, setImage] = useState(null);
@@ -70,13 +71,13 @@ function CreateProd (props) {
         }
 
         await axios.post('https://vkus-vostoka.kz/api/prods', body, config);
-        router.reload(window.location.pathname);
+
         props.onChange();
 
     }
         return (
             <Form
-            style={{width:'450px',position:"absolute", left: "40%", top:'30%'}}
+            style={{width:'500px',position:"relative", left: "20%", top:'-10%'}}
             labelCol= {{ span: 10 }}
             wrapperCol= {{ span: 20 }}
             onFinish={onFinish}
@@ -89,7 +90,7 @@ function CreateProd (props) {
                     <InputNumber />
                 </Form.Item>
                 <Form.Item name="desc" label="Описание" rules={[{ required: true, message: 'Введите описание!' }]}>
-                    <Input />
+                    <TextArea />
                 </Form.Item>
                 <Form.Item label="Родительская категория" name="parent" rules={[{ required: true, message: 'Выбрите родительскую категорию!' }]}>
                     <Select>

@@ -12,6 +12,7 @@ export default function AdminPanelProds({categories}) {
     const [data, setData] = useState([]);
     const [createProd, setCreateProd] = useState(false);
     const [selectedNode, setSelectedNode] = useState(undefined);
+    const [selectedNameCat, setSelectedNameCat] = useState(undefined);
     const [selectedProd, setSelectedProd] = useState(undefined);
     const [edit, setEdit] = useState(false);
     const [del, setDel] = useState(false);
@@ -22,8 +23,6 @@ export default function AdminPanelProds({categories}) {
 
 
     if(categories != undefined, categories.length != 0){
-      console.log(categories)
-      
       getFiniteValue(cards)
       function getFiniteValue(obj) {
         getProp(obj);
@@ -48,6 +47,7 @@ export default function AdminPanelProds({categories}) {
       console.log(e)
       if(id === undefined) return console.log(0);
       setSelectedNode(id);
+      setSelectedNameCat(e)
 
       let token;
       if (typeof window !== "undefined") {
@@ -63,7 +63,6 @@ export default function AdminPanelProds({categories}) {
 
       const res = await axios.get(`https://vkus-vostoka.kz/api/prods/find?id=${id}`, config);
       setData(res.data);
-      res.data.forEach
     }
 
     async function onDelete(){
@@ -125,7 +124,7 @@ export default function AdminPanelProds({categories}) {
         ),
       },
     ];
-    
+
     if(del){
       return <Alert
       message="Вы уверены что хотите удалить продукцию?"
@@ -150,9 +149,8 @@ export default function AdminPanelProds({categories}) {
       return ( <><div style={{  width: 200, height: "100%", borderRight: "1px solid black"}}>
     <Tree showLine
           switcherIcon={<DownOutlined />}
-          defaultExpandedKeys={['0']}
+          defaultExpandedKeys={['1']}
           defaultExpandAll={true}
-          style={{}}
           treeData={[
             {
               title: 'Нет категорий',
@@ -182,20 +180,22 @@ export default function AdminPanelProds({categories}) {
     } else if(edit){
       return <EditProd onChange={(e) => {setEdit(false)}} categories={categories} selectedProd={selectedProd}></EditProd>
     } else{
-    return ( <><div style={{  width: 200, height: "100%"}}>
-
+    return ( <><div style={{  width: 300, height: "100%"}}>
+    <h1 style={{position: 'relative', top: "-94px", left:'106%', marginBottom: -60, fontSize:24, width:400}}>{selectedNameCat ? categories.filter(card => card.id == selectedNode)[0].name : 'Выберите категорию'}</h1>
     <Tree showLine
           switcherIcon={<DownOutlined />}
-          defaultExpandedKeys={['0']}
-          defaultExpandAll={true}
+          defaultExpandedKeys={['1']}
+          defaultExpandAll={false}
           onSelect={onSelect}
           selectable
-          treeData={cards }/>
+          style={{margin:0, marginLeft: -7, marginTop: 15}}
+          treeData={cards}
+          />
     </div>
     <div style={{width: '100%', height:'100%'}} >
-
-          <Table columns={columns} dataSource={data} style={{ width:"100%", height:"98%", marginLeft:'1%'}}/>
-          <Button onClick={(e) => {setCreateProd(true);}} type="primary" style={{marginLeft:'1%'}}>Создать новую</Button>
+          <Button onClick={(e) => {setCreateProd(true);}} type="primary" style={{marginLeft:'1%', position: 'relative', top: "-90px", left:'87%', margin:-100}}>Создать новую продукцию</Button>
+          <Table columns={columns} dataSource={data} style={{ width:"100%", height:"98%", marginLeft:'1%', margin:0, marginTop:-42}}/>
+          
     </div>
     </> ) 
     }
