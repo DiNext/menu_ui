@@ -17,25 +17,15 @@ function adminPanel({categories}) {
   const cookie = new cookieManager();
   const router = useRouter();
 
-  useEffect(() => {
-    const id = setInterval(() => {
-      if (typeof window !== "undefined") {
-        const ck = cookie.getCookie('auth_token');
-    
-        if(ck == undefined){
-          router.push('/auth');
-        }
-      } 
-      getCategoryes();
-    }, 600);
-    return () => clearInterval(id);
+  
+ 
+  useEffect(async () =>  {
+      const categories = await axios.get('https://vkus-vostoka.kz/api/category').then(res => res.data)
+
+      setCards(categories)
   }, []);
 
-  async function getCategoryes () {
-    const categories = await axios.get('https://vkus-vostoka.kz/api/category').then(res => res.data)
-
-    setCards(categories)
-  }
+  
 
   
   
