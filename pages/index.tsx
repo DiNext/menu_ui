@@ -28,7 +28,7 @@ ConfigProvider.config({
 function Main()  {
   const fetcher = (url: any) => axios.get(url).then(res => res.data);
   const { data, error } = useSWR('https://vkus-vostoka.kz/api/category', fetcher);
-
+  console.log(data)
   const [prods, setProds] = useState(null as any);
   const [status, setStatus] = useState('default' as any);
   const [listProds, setListProds] = useState([] as any);
@@ -145,6 +145,11 @@ function Main()  {
     },
     {
       title: 'Цена',
+      dataIndex: 'cena',
+      render: (text, record) => <>{record.price + " тг."}</>
+    },
+    {
+      title: 'Cумма',
       dataIndex: 'price',
       render: (text, record) => <>{(Number(record.qnty) * record.price) + " тг."}</>
     },
@@ -273,9 +278,10 @@ function Main()  {
         title={`Корзина`}
         placement="right"
         closable={false}
-        width={"70%"}
+        width={"90%"}
         onClose={onClose}
         visible={visible}
+        style={{padding:0}}
         extra={
           <Space>
             <Button onClick={onClose}>Отмена</Button>
@@ -284,7 +290,7 @@ function Main()  {
         }
       >
             <div style={{display:"flex", width:"100%"}}>
-              <Table style={{width:"100%"}} columns={columns} pagination={false} dataSource={backetData} size="middle" footer={sum}/>
+              <Table style={{width:"100%", margin:0}} columns={columns} pagination={false} dataSource={backetData} size="middle" footer={sum}/>
             </div>
             <Drawer
             title="Заказ"

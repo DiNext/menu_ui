@@ -83,7 +83,6 @@ export default function AdminPanelProds({categories}) {
       await axios.delete(`https://vkus-vostoka.kz/api/prods?id=${id}`, config);
 
       setDel(false);
-      router.reload(window.location.pathname);
     }
 
     const columns = [
@@ -180,9 +179,9 @@ export default function AdminPanelProds({categories}) {
     } else if(edit){
       return <EditProd onChange={(e) => {setEdit(false)}} categories={categories} selectedProd={selectedProd}></EditProd>
     } else{
-    return ( <><div style={{  width: 300, height: "100%"}}>
-    <h1 style={{position: 'relative', top: "-94px", left:'106%', marginBottom: -60, fontSize:24, width:400}}>{selectedNameCat ? categories.filter(card => card.id == selectedNode)[0].name : 'Выберите категорию'}</h1>
-    <Tree showLine
+    return ( <><div style={{  width: 250, height: "100%"}}>
+    <h1 style={{position: 'relative', top: "-94px", left:'105%', marginBottom: -60, fontSize:24, width:400}}>{selectedNameCat ? categories.filter(card => card.id == selectedNode)[0].name : 'Выберите категорию'}</h1>
+    <Tree showLine={{showLeafIcon: false}}
           switcherIcon={<DownOutlined />}
           defaultExpandedKeys={['1']}
           defaultExpandAll={false}
