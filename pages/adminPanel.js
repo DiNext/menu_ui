@@ -17,7 +17,7 @@ function adminPanel({categories}) {
   const cookie = new cookieManager();
   const router = useRouter();
 
-  useEffect(async () => {
+  useEffect(() => {
     const id = setInterval(() => {
       getCategoryes();
     }, 600);
@@ -29,7 +29,7 @@ function adminPanel({categories}) {
 
     setCards(categories)
   }
-  
+
   if (typeof window !== "undefined") {
     const ck = cookie.getCookie('auth_token');
 
