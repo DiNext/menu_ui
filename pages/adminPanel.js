@@ -25,9 +25,13 @@ function adminPanel({categories}) {
       setCards(categories)
   }, []);
 
-  
+  if (typeof window !== "undefined") {
+    const ck = cookie.getCookie('auth_token');
 
-  
+    if(ck == undefined){
+      router.push('/auth');
+    }
+  } 
   
   function handleToggle() {
     setToggle(!collapsed);
