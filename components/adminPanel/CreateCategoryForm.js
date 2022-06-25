@@ -109,15 +109,14 @@ function CreateCategoryForm (props) {
             wrapperCol= {{ span: 20 }}
             onFinish={onFinish}
             size='large'
-            >   <h1 style={{fontSize:'21px', marginBottom:20}}>Создание новой категории</h1>
+            >   
                 <Form.Item name="name" label="Название" rules={[{ required: true, message: 'Введите название категории!' }]}>
                     <Input />
                 </Form.Item>
                 <Form.Item label="Родительская категория" name="parent" rules={[{ required: true, message: 'Выбрите родительскую категорию!' }]}>
-                    <Select>
-                    <Select.Option value="none">Нет</Select.Option>    
+                    <Select>   
                     {props.categories.map((category) => (              
-                        <Select.Option key={category.id} value={category.id}>{category.name}</Select.Option>
+                        category.name == 'Кухня' || category.name == "Бар" ? <Select.Option key={category.id} value={category.id}>{category.name}</Select.Option>: console.log(1)
                     ))}
                      </Select>
                 </Form.Item>
@@ -126,7 +125,9 @@ function CreateCategoryForm (props) {
                     name="upload" 
                     label="Загрузить изображение"
                     valuePropName="fileList"
-                    getValueFromEvent={normFile}>
+                    getValueFromEvent={normFile}
+                    rules={[{ required: true, message: 'Обязательно загрузите фотографию категории!' }]}
+                    >
                     <Upload maxCount={1} listType="picture-card" action={'/'} onRemove={onRemove}>
                         <Button icon={<UploadOutlined />}></Button>
                     </Upload>

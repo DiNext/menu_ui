@@ -8,9 +8,11 @@ import TextArea from 'antd/lib/input/TextArea';
 
 function CreateProd (props) {
     const [image, setImage] = useState(null);
-
     const router = useRouter()
     const cookie = new cookieManager();
+    const [form] = Form.useForm();
+    
+    form.resetFields()
 
     const normFile = (e)=> {
         if(e.fileList == undefined){
@@ -20,7 +22,7 @@ function CreateProd (props) {
         }
     };
 
-    async function onClose() {
+    function onClose() {
         props.onChange();
     }
 
@@ -74,15 +76,17 @@ function CreateProd (props) {
 
         props.onChange();
 
-    }
+    }  
         return (
             <Form
-            style={{width:'500px',position:"relative", left: "20%", top:'-10%'}}
+            style={{width:'500px',position:"relative", top:'-10%'}}
             labelCol= {{ span: 10 }}
             wrapperCol= {{ span: 20 }}
             onFinish={onFinish}
             size='large'
-            >   <h1 style={{fontSize:'21px', marginBottom:20}}>Создание новой продукции</h1>
+            form={form}
+            initialValues={{parent:props.selectedCategory[0] != undefined?props.selectedCategory[0].id: ''}}
+            > 
                 <Form.Item name="name" label="Название" rules={[{ required: true, message: 'Введите название продукции!' }]}>
                     <Input />
                 </Form.Item>
@@ -93,10 +97,12 @@ function CreateProd (props) {
                     <TextArea />
                 </Form.Item>
                 <Form.Item label="Родительская категория" name="parent" rules={[{ required: true, message: 'Выбрите родительскую категорию!' }]}>
-                    <Select>
-                    <Select.Option value="0">Нет</Select.Option>    
+                    <Select 
+                    showSearch 
+                    autoClearSearchValue={true}
+                    filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}>   
                     {props.categories.map((category) => (              
-                        <Select.Option key={category.id} value={category.id}>{category.name}</Select.Option>
+                        category.name != 'Бар' && category.name != "Кухня" ? <Select.Option key={category.id} value={category.id}>{category.name}</Select.Option> : console.log(1) 
                     ))}
                      </Select>
                 </Form.Item>
@@ -111,7 +117,7 @@ function CreateProd (props) {
                     </Upload>
                 </Form.Item>
     
-                <Form.Item >
+                <Form.Item style={{marginLeft:206}}>
                     <Button type="primary" htmlType='submit'>Создать</Button>
                     <Button style={{marginLeft: 20}} onClick={onClose}>Отмена</Button>
                 </Form.Item>

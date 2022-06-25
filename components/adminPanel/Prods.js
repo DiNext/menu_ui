@@ -1,8 +1,6 @@
-import { Tree } from 'antd';
 import React, { useState } from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import { useRouter } from 'next/router';
-import { Empty, Button, Table, Space, Alert } from 'antd';
+import { DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { Empty, Button, Table, Space, Tree, Modal } from 'antd';
 import CreateProd from './CreateProd';
 import EditProd from './EditProd';
 import cookieManager from '../../src/managers/cookieManager';
@@ -16,11 +14,9 @@ export default function AdminPanelProds({categories}) {
     const [selectedProd, setSelectedProd] = useState(undefined);
     const [edit, setEdit] = useState(false);
     const [del, setDel] = useState(false);
-
+    const { confirm } = Modal;
     const cookie = new cookieManager();
-    const router = useRouter()
     const cards = categories.filter(cards => cards.parent == null);
-
 
     if(categories != undefined, categories.length != 0){
       getFiniteValue(cards)
@@ -44,7 +40,7 @@ export default function AdminPanelProds({categories}) {
     
     async function onSelect(e) {
       const id = e[0];
-      console.log(e)
+
       if(id === undefined) return console.log(0);
       setSelectedNode(id);
       setSelectedNameCat(e)
@@ -65,8 +61,8 @@ export default function AdminPanelProds({categories}) {
       setData(res.data);
     }
 
-    async function onDelete(){
-      const id = selectedProd.id;
+     async function onDelete(record){
+      const id = record.id;
       
       let token;
       if (typeof window !== "undefined") {
@@ -82,8 +78,12 @@ export default function AdminPanelProds({categories}) {
 
       await axios.delete(`https://vkus-vostoka.kz/api/prods?id=${id}`, config);
 
+      const idCat = selectedNode;
+      const res = await axios.get(`https://vkus-vostoka.kz/api/prods/find?id=${idCat}`, config);
+      setData(res.data);
+
       setDel(false);
-    }
+    } 
 
     const columns = [
       {
@@ -118,31 +118,77 @@ export default function AdminPanelProds({categories}) {
         render: (text, record) => (
           <Space size="middle">
             <a onClick={ (e) => { setSelectedProd(record); setEdit(true);} }>Редактировать</a>
-            <a onClick={ (e) => { setSelectedProd(record); setDel(true);} }>Удалить</a>
+            <a onClick={ (e) => { showDeleteConfirm(record);} }>Удалить</a>
           </Space>
         ),
       },
     ];
 
-    if(del){
-      return <Alert
-      message="Вы уверены что хотите удалить продукцию?"
-      description={<><p>Если согласны нажмите принять, иначе нажмите отмена.</p>
-                    <Space direction="horizontal">
-                    <Button size="small" danger type="ghost" onClick={onDelete}>
-                      Принять
-                    </Button>
-                    <Button size="small" type="primary" onClick={e => {setDel(false)}}>
-                      Отмена 
-                    </Button>
-                  </Space></>}
-      type="info"
-      onClose={e =>{setDel(false)}}
-      style={{position:"relative", left: "30%", top:"-10%"}}
-      closable
-    />
-    }
+    const showDeleteConfirm = (record) => {
+      confirm({
+        title: `Вы уверены что хотите удалить продукцию: ${record.name}?`,
+        icon: <ExclamationCircleOutlined />,
+        content: 'Если согласны нажмите Ок, иначе нажмите Отмена.',
+        okText: 'Ок',
+        okType: 'danger',
+        cancelText: 'Отмена',
+        width: 500,
     
+        async onOk() {
+          console.log(record)
+          await onDelete(record) 
+          
+        },
+    
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
+    };
+
+    async function onCreatedProd() {
+      const id = selectedNode;
+      
+      if(id === undefined) return setCreateProd(false);
+
+      let token;
+      if (typeof window !== "undefined") {
+        token = cookie.getCookie('auth_token');
+      } 
+
+      const config = {
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+      }
+
+      const res = await axios.get(`https://vkus-vostoka.kz/api/prods/find?id=${id}`, config);
+      setData(res.data);
+      setCreateProd(false);
+    }
+
+    async function onEditProd() {
+      const id = selectedNode;
+      
+      if(id === undefined) return setEdit(false);
+
+      let token;
+      if (typeof window !== "undefined") {
+        token = cookie.getCookie('auth_token');
+      } 
+
+      const config = {
+        headers: {
+            'content-type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+      }
+
+      const res = await axios.get(`https://vkus-vostoka.kz/api/prods/find?id=${id}`, config);
+      setData(res.data);
+      setEdit(false);
+    }
 
     if(!categories || categories == undefined || categories.length == 0){
       return ( <><div style={{  width: 200, height: "100%", borderRight: "1px solid black"}}>
@@ -173,12 +219,8 @@ export default function AdminPanelProds({categories}) {
       </Empty>
     </div>
     </> ) 
-
-    }else if(createProd){
-      return <CreateProd onChange={(e) => {setCreateProd(false)}} categories={categories}></CreateProd>
-    } else if(edit){
-      return <EditProd onChange={(e) => {setEdit(false)}} categories={categories} selectedProd={selectedProd}></EditProd>
-    } else{
+    }
+    else{
     return ( <><div style={{  width: 250, height: "100%"}}>
     <h1 style={{position: 'relative', top: "-94px", left:'105%', marginBottom: -60, fontSize:24, width:400}}>{selectedNameCat ? categories.filter(card => card.id == selectedNode)[0].name : 'Выберите категорию'}</h1>
     <Tree showLine={{showLeafIcon: false}}
@@ -194,7 +236,29 @@ export default function AdminPanelProds({categories}) {
     <div style={{width: '100%', height:'100%'}} >
           <Button onClick={(e) => {setCreateProd(true);}} type="primary" style={{marginLeft:'1%', position: 'relative', top: "-90px", left:'87%', margin:-100}}>Создать новую продукцию</Button>
           <Table columns={columns} dataSource={data} style={{ width:"100%", height:"98%", marginLeft:'1%', margin:0, marginTop:-42}}/>
-          
+
+          <Modal
+          title="Создание новой продукции"
+          visible={createProd}
+          footer={[]}
+          forceRender={true}
+          width={"40%"}
+          onCancel={()=>{setCreateProd(false)}}
+          >
+           <CreateProd onChange={(e) => {onCreatedProd()}} categories={categories}
+           selectedCategory={categories.filter(card =>  card.id == selectedNode) }></CreateProd> 
+          </Modal> 
+
+          <Modal
+          title={`Редактирование продукции ${selectedProd ? selectedProd.name: ''}`}
+          visible={edit}
+          footer={[]}
+          width={"40%"}
+          forceRender={true}
+          onCancel={()=>{setEdit(false)}}
+          >
+           {edit == true? <EditProd onChange={(e) => {onEditProd()}} categories={categories} selectedProd={selectedProd}></EditProd> : <>{console.log('s')}</> }
+          </Modal>
     </div>
     </> ) 
     }

@@ -10,7 +10,7 @@ import Head from 'next/head';
 
 const { Header, Sider, Content } = Layout;
 
-function adminPanel({categories}) {
+function adminPanel() {
   const [collapsed, setToggle] = useState(false);
   const [select, setSelect] = useState('prods');
   const [cards, setCards] = useState([]);

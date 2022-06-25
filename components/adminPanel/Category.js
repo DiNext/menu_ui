@@ -1,4 +1,4 @@
-import { Table, Space, Button, Alert } from 'antd';
+import { Table, Space, Button, Alert, Modal } from 'antd';
 import React, {  useState } from 'react';
 import { useRouter } from 'next/router';
 import cookieManager from '../../src/managers/cookieManager';
@@ -92,9 +92,7 @@ export default function AdminPanelCategoty(props) {
       });
 
     }
-    
-    
-      if(del){
+    if(del){
         return <Alert
         message="Вы уверены что хотите удалить категорию?"
         description={<><p>Если согласны нажмите принять, иначе нажмите отмена.</p>
@@ -111,16 +109,22 @@ export default function AdminPanelCategoty(props) {
         style={{position:"relative", left: "30%", top:"-10%"}}
         closable
       />
-      }
-
-      if(createCategory){
-        return <CreateCategoryForm onChange={handleCreateCategory} categories={props.categories}></CreateCategoryForm>
-      } else if(edit){
+      }else if(edit){
         return <EditCategoryForm onChange={handleEditCategory} categories={props.categories} selectedCategory={selectedCol}></EditCategoryForm>
       }else{
         return (<div style={{ width:"100%", height:"95%"}}>
           <Button onClick={handleCreateCategory} type="primary" style={{marginLeft:'1%', position: 'relative', top: "-110px", left:'87%', margin:-100}}>Создать новую категорию</Button>
           <Table columns={columns} dataSource={data} style={{ width:"100%", height:"100%", marginLeft:'1%', margin:0, marginTop:-60}}/>
+          <Modal
+          title="Создание новой категории"
+          visible={createCategory}
+          footer={[]}
+          forceRender={true}
+          width={"40%"}
+          onCancel={()=>{setCreateCategory(false)}}
+          >
+           <CreateCategoryForm onChange={handleCreateCategory} categories={props.categories}></CreateCategoryForm>
+          </Modal> 
       </div> ) 
       } 
 }

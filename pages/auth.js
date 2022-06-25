@@ -7,8 +7,8 @@ function Auth () {
   const cookie = new cookieManager();
   const router = useRouter();
 
-  const onFinish = (values) => {
-    axios.post('https://vkus-vostoka.kz/auth/login', {login: values.username, password: values.password})
+  async function onFinish  (values)  {
+    await axios.post('https://vkus-vostoka.kz/auth/login', {login: values.username, password: values.password})
          .then(res => cookie.setCookie('auth_token', res.data.data.token, 1));
     router.push('/adminPanel');
   }
