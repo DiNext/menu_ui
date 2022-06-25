@@ -11,7 +11,7 @@ function CreateCategoryForm (props) {
 
     const router = useRouter()
     const cookie = new cookieManager();
-
+    
     const normFile = (e)=> {
         if(e.fileList == undefined){
             return e
@@ -98,20 +98,20 @@ function CreateCategoryForm (props) {
                     </Space></>}
         type="info"
         onClose={e =>{setTrigger(false)}}
-        style={{position:"relative", left: "30%", top:"-10%"}}
+        style={{position:"relative", top:"-10%"}}
         closable
       />
     }else{
         return (
             <Form
-            style={{width:'500px',position:"relative", left: "20%", top:'-10%'}}
-            labelCol= {{ span: 6.5 }}
+            style={{width:'500px',position:"relative", top:'-10%'}}
+            labelCol= {{ span: 10 }}
             wrapperCol= {{ span: 20 }}
             onFinish={onFinish}
             size='large'
             >   
                 <Form.Item name="name" label="Название" rules={[{ required: true, message: 'Введите название категории!' }]}>
-                    <Input />
+                    <Input maxLength={20}/>
                 </Form.Item>
                 <Form.Item label="Родительская категория" name="parent" rules={[{ required: true, message: 'Выбрите родительскую категорию!' }]}>
                     <Select>   
@@ -126,7 +126,6 @@ function CreateCategoryForm (props) {
                     label="Загрузить изображение"
                     valuePropName="fileList"
                     getValueFromEvent={normFile}
-                    rules={[{ required: true, message: 'Обязательно загрузите фотографию категории!' }]}
                     >
                     <Upload maxCount={1} listType="picture-card" action={'/'} onRemove={onRemove}>
                         <Button icon={<UploadOutlined />}></Button>

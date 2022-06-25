@@ -107,7 +107,7 @@ export default function Prod({card})  {
           <Card
           hoverable
           style={{
-            width:"500px",
+            width:"545px",
             marginTop:20,
             boxShadow: "0 0 10px rgba(0,0,0,0.2)"
           }}
@@ -118,7 +118,7 @@ export default function Prod({card})  {
           ]}
           cover={<img alt="image" src={card.image? `${card.image}` : '../images/4.jpeg'} style={{height:320}}/>}
         >
-          <p style={{fontSize:'21px', fontWeight:'bold', height:20, marginTop:-20}}> {card.name}</p>
+          <p style={{fontSize:'21px', fontWeight:'bold', width:"100%", height:20, marginTop:-20}}> {card.name}</p>
           <p style={{fontSize:'14px', color:"#a0a0a0", marginTop:-5}}>{card.desc}</p>
            <p style={{marginTop:4, marginBottom:0, fontSize:'22px', color:'#d46b08',fontWeight:'bold', height:20}}>{card.price + " тг."}</p>
         </Card></Badge>

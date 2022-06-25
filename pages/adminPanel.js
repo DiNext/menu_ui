@@ -17,8 +17,6 @@ function adminPanel() {
   const cookie = new cookieManager();
   const router = useRouter();
 
-  
- 
   useEffect(async () =>  {
       const categories = await axios.get('https://vkus-vostoka.kz/api/category').then(res => res.data)
 
@@ -43,6 +41,12 @@ function adminPanel() {
     } else{
       setSelect('prods');
     }
+  }
+  
+   const onUpdateCategory = async () => {
+    console.log('UPDATED')
+    const categories = await axios.get('https://vkus-vostoka.kz/api/category').then(res => res.data)
+    setCards(categories)
   }
 
   let styleLogo ={color: "white", padding: 10, fontSize: 18};
@@ -96,7 +100,7 @@ function adminPanel() {
               justifyContent: "left",
               flexDirection: "row"
             }}> 
-            {React.createElement(select == "prods" ? Prods : Category, {categories: cards }) }     
+            {React.createElement(select == "prods" ? Prods : Category, {categories: cards, onChange:onUpdateCategory }) }     
           </Content>
         </Layout>
       </Layout></div>)

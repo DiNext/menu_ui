@@ -88,7 +88,7 @@ function CreateProd (props) {
             initialValues={{parent:props.selectedCategory[0] != undefined?props.selectedCategory[0].id: ''}}
             > 
                 <Form.Item name="name" label="Название" rules={[{ required: true, message: 'Введите название продукции!' }]}>
-                    <Input />
+                    <Input maxLength={37}/>
                 </Form.Item>
                 <Form.Item name="price" label="Цена" rules={[{ required: true, message: 'Введите цену!' }]}>
                     <InputNumber />

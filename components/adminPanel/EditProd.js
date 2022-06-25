@@ -4,21 +4,19 @@ import { Form, Input, Button, Upload, Image, InputNumber, Modal } from 'antd';
 import { UploadOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import cookieManager from '../../src/managers/cookieManager';
 import axios from 'axios';
+
 const { confirm } = Modal;
 const { TextArea } = Input;
 
 function useForceUpdate(){
-    const [value, setValue] = useState(0); // integer state
-    return () => setValue(value => value + 1); // update state to force render
-    // An function that increment 👆🏻 the previous state like here 
-    // is better than directly setting `value + 1`
+    const [value, setValue] = useState(0); 
+    return () => setValue(value => value + 1); 
 }
 
 function EditProd (props) {
     const [image, setImage] = useState(null);
     const [loading, setLoading] = useState(false);
     const [form] = Form.useForm();
-    const [deleteImage, setDeleteImage] = useState(false);
     const router = useRouter()
     const cookie = new cookieManager();
     
@@ -68,7 +66,7 @@ function EditProd (props) {
                 }
             }
 
-            await axios.put(`https://vkus-vostoka.kz/api/prods?id=${id}`, body, config).finally(()=>{});
+            await axios.put(`https://vkus-vostoka.kz/api/prods?id=${id}`, body, config);
             props.selectedProd.image = ""; 
             forceUpdate()
               
@@ -151,7 +149,7 @@ function EditProd (props) {
             initialValues={{name:props.selectedProd? props.selectedProd.name : ''}}
             >  
                 <Form.Item name="name" label="Название"  rules={[{ required: true, message: 'Введите новое название!' }]}>
-                    <Input />
+                    <Input maxLength={37}/>
                 </Form.Item>
                 <Form.Item name="price" label="Цена" initialValue={props.selectedProd? props.selectedProd.price : ''} rules={[{ required: true, message: 'Выбрите новую цену!' }]}>
                     <InputNumber />
@@ -159,7 +157,7 @@ function EditProd (props) {
                 <Form.Item name="desc" label="Описание" initialValue={props.selectedProd? props.selectedProd.desc : ''} rules={[{ required: true, message: 'Выбрите новое описание!' }]}>
                     <TextArea />
                 </Form.Item>
-                <Form.Item name="desc" label="Текущее изображение">
+                <Form.Item name="image" label="Текущее изображение">
                     {props.selectedProd.image != '' ? <><Image width={200} src={props.selectedProd? props.selectedProd.image: ''} /> <Button type="danger" size={'small'}onClick={() => {showDeleteConfirm()}}>Удалить</Button></>: 'Нет фотографии.'}
                 </Form.Item>
 

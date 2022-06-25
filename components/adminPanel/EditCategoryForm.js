@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router'
-import { Form, Input, Button, Upload, Select, Alert, Space } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Upload, Alert, Space, Image, Modal } from 'antd';
+import { UploadOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import cookieManager from '../../src/managers/cookieManager';
 import axios from 'axios';
+
+const { confirm } = Modal;
+
+function useForceUpdate(){
+    const [value, setValue] = useState(0); 
+    return () => setValue(value => value + 1); 
+}
 
 function EditCategoryForm (props) {
     const [image, setImage] = useState(null);
     const [trigger, setTrigger] = useState(false);
-
+    const [form] = Form.useForm();
+    
     const router = useRouter()
     const cookie = new cookieManager();
+    const forceUpdate = useForceUpdate();
 
     const normFile = (e)=> {
         if(e.fileList == undefined){
@@ -27,6 +36,45 @@ function EditCategoryForm (props) {
     function onRemove() {
         setImage(null);
     }
+    const showDeleteConfirm = () => {
+        confirm({
+          title: `Вы уверены что хотите удалить фотографию?`,
+          icon: <ExclamationCircleOutlined />,
+          content: '',
+          okText: 'Ок',
+          okType: 'danger',
+          cancelText: 'Отмена',
+      
+          async onOk() {
+            const id = props.selectedCategory.id;
+
+            let token;
+            if (typeof window !== "undefined") {
+                token = cookie.getCookie('auth_token');
+            } 
+            
+            const body = {
+                image: ''
+            }
+
+            const config = {
+                headers: {
+                    'content-type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }
+            }
+
+            await axios.put(`https://vkus-vostoka.kz/api/category?id=${id}`, body, config);
+            props.selectedCategory.image = ""; 
+            forceUpdate()
+            props.onChange()  
+          },
+      
+          onCancel() {
+            console.log('Cancel');
+          },
+        });
+      };
 
     async function onFinish(values) {
         let uniqName = true;
@@ -97,21 +145,25 @@ function EditCategoryForm (props) {
                     </Space></>}
         type="info"
         onClose={e =>{setTrigger(false)}}
-        style={{position:"relative", left: "30%", top:"-10%"}}
+        style={{position:"relative", top:"-10%"}}
         closable
       />
     }
     else{
         return (
             <Form
-            style={{width:'500px',position:"relative", left: "20%", top:'-20%'}}
-            labelCol= {{ span: 6.5 }}
+            style={{width:500,position:"relative", top:'-20%'}}
+            labelCol= {{ span: 10 }}
             wrapperCol= {{ span: 20 }}
             onFinish={onFinish}
             size='large'
-            >   <h1 style={{fontSize:'21px', marginBottom:20}}>Редактирование категории "{props.selectedCategory.name}"</h1>
+            form={form}
+            >   
                 <Form.Item name="name" label="Новое название" rules={[{ required: true, message: 'Введите название категории!' }]} initialValue={props.selectedCategory.name}>
-                    <Input  />
+                    <Input  maxLength={20}/>
+                </Form.Item>
+                <Form.Item name="image" label="Текущее изображение">
+                    {props.selectedCategory.image != '' ? <><Image width={200} src={props.selectedCategory? props.selectedCategory.image: ''} /> <Button type="danger" size={'small'}onClick={() => {showDeleteConfirm()}}>Удалить</Button></>: 'Нет фотографии.'}
                 </Form.Item>
                 <Form.Item
                     name="upload" 
@@ -124,7 +176,7 @@ function EditCategoryForm (props) {
                 </Form.Item>
     
                 <Form.Item >
-                    <Button type="primary" htmlType='submit'>Редактировать</Button>
+                    <Button type="primary" htmlType='submit'>Сохранить</Button>
                     <Button style={{marginLeft: 20}} onClick={onClose}>Отмена</Button>
                 </Form.Item>
             </Form>

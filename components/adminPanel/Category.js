@@ -1,12 +1,19 @@
 import { Table, Space, Button, Alert, Modal } from 'antd';
 import React, {  useState } from 'react';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import cookieManager from '../../src/managers/cookieManager';
 import CreateCategoryForm from './CreateCategoryForm';
 import EditCategoryForm from './EditCategoryForm';
 import axios from 'axios';
+const { confirm } = Modal;
 
-export default function AdminPanelCategoty(props) {
+function useForceUpdate(){
+  const [value, setValue] = useState(0);
+  return () => setValue(value => value + 1); 
+}
+
+export default function AdminPanelCategory(props) {
     const [createCategory, setCreateCategory] = useState(false);
     const [selectedCol, setselectedCol] = useState(null);
     const [edit, setEdit] = useState(false);
@@ -14,23 +21,28 @@ export default function AdminPanelCategoty(props) {
 
     const router = useRouter()
     const cookie = new cookieManager();
+    const forceUpdate = useForceUpdate();
 
-    function handleCreateCategory() {
+    async function handleCreateCategory() {
+      props.onChange();
+      forceUpdate()
       setCreateCategory(!createCategory);
     }
 
     function handleEditCategory() {
+      props.onChange();
+      forceUpdate()
       setEdit(!edit);
     }
 
-    async function onDelete(){
-      const id = selectedCol.id;
+    async function onDelete(record){
+      const id = record.id;
       
       let token;
       if (typeof window !== "undefined") {
           token = cookie.getCookie('auth_token');
       } 
-      console.log(token)
+
       const config = {
           headers: {
               'content-type': 'application/json',
@@ -41,9 +53,30 @@ export default function AdminPanelCategoty(props) {
       await axios.delete(`https://vkus-vostoka.kz/api/category?id=${id}`, config);
 
       setDel(false);
-      router.reload(window.location.pathname);
+      props.onChange();
+      forceUpdate()
     }
     
+    const showDeleteConfirm = (record) => {
+      confirm({
+        title: `Вы уверены что хотите удалить категорию: ${record.name}?`,
+        icon: <ExclamationCircleOutlined />,
+        content: 'Если согласны нажмите Ок, иначе нажмите Отмена.',
+        okText: 'Ок',
+        okType: 'danger',
+        cancelText: 'Отмена',
+        width: 500,
+    
+        async onOk() {
+          await onDelete(record)      
+        },
+    
+        onCancel() {
+          console.log('Cancel');
+        },
+      });
+    };
+
     const columns = [
         {
           title: 'Название',
@@ -62,7 +95,7 @@ export default function AdminPanelCategoty(props) {
           render: (text, record) => (
             <Space size="middle">
               <a onClick={ (e) => { setselectedCol(record); setEdit(true);} }>Редактировать</a>
-              {record.prods.length == 0 && record.chil.length == 0? <a onClick={ (e) => { setselectedCol(record); setDel(true);} }>Удалить</a> : ''}
+              {record.prods.length == 0 && record.chil.length == 0? <a onClick={ (e) => { showDeleteConfirm(record);} }>Удалить</a> : ''}
             </Space>
           ),
         },
@@ -78,41 +111,13 @@ export default function AdminPanelCategoty(props) {
             name: element.name,
             parent: element.parent.name,
             prods: element.prods,
-            chil: element.children
+            chil: element.children,
+            image: element.image
           })
-        } else{
-          data.push({
-            id: element.id,
-            name: element.name,
-            parent: 'Нет',
-            prods: element.prods,
-            chil: element.children
-          })
-        }
-      });
-
+        } 
+      })
     }
-    if(del){
-        return <Alert
-        message="Вы уверены что хотите удалить категорию?"
-        description={<><p>Если согласны нажмите принять, иначе нажмите отмена.</p>
-                      <Space direction="horizontal">
-                      <Button size="small" danger type="ghost" onClick={onDelete}>
-                        Принять
-                      </Button>
-                      <Button size="small" type="primary" onClick={e => {setDel(false)}}>
-                        Отмена 
-                      </Button>
-                    </Space></>}
-        type="info"
-        onClose={e =>{setDel(false)}}
-        style={{position:"relative", left: "30%", top:"-10%"}}
-        closable
-      />
-      }else if(edit){
-        return <EditCategoryForm onChange={handleEditCategory} categories={props.categories} selectedCategory={selectedCol}></EditCategoryForm>
-      }else{
-        return (<div style={{ width:"100%", height:"95%"}}>
+    return (<div style={{ width:"100%", height:"95%"}}>
           <Button onClick={handleCreateCategory} type="primary" style={{marginLeft:'1%', position: 'relative', top: "-110px", left:'87%', margin:-100}}>Создать новую категорию</Button>
           <Table columns={columns} dataSource={data} style={{ width:"100%", height:"100%", marginLeft:'1%', margin:0, marginTop:-60}}/>
           <Modal
@@ -125,6 +130,16 @@ export default function AdminPanelCategoty(props) {
           >
            <CreateCategoryForm onChange={handleCreateCategory} categories={props.categories}></CreateCategoryForm>
           </Modal> 
+
+          <Modal
+          title={`Редактирование категории "${selectedCol ? selectedCol.name: ''}"`}
+          visible={edit}
+          footer={[]}
+          forceRender={true}
+          width={"40%"}
+          onCancel={()=>{setEdit(false)}}
+          >
+           {edit == true? <EditCategoryForm onChange={handleEditCategory} categories={props.categories} selectedCategory={selectedCol}></EditCategoryForm> : <>{console.log('s')}</> }
+          </Modal> 
       </div> ) 
       } 
-}

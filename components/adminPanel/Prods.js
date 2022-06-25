@@ -135,9 +135,7 @@ export default function AdminPanelProds({categories}) {
         width: 500,
     
         async onOk() {
-          console.log(record)
           await onDelete(record) 
-          
         },
     
         onCancel() {
@@ -250,7 +248,7 @@ export default function AdminPanelProds({categories}) {
           </Modal> 
 
           <Modal
-          title={`Редактирование продукции ${selectedProd ? selectedProd.name: ''}`}
+          title={`Редактирование продукции "${selectedProd ? selectedProd.name: ''}"`}
           visible={edit}
           footer={[]}
           width={"40%"}
