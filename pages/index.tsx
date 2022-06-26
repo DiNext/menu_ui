@@ -28,7 +28,7 @@ ConfigProvider.config({
 function Main()  {
   const fetcher = (url: any) => axios.get(url).then(res => res.data);
   const { data, error } = useSWR('https://vkus-vostoka.kz/api/category', fetcher);
-  console.log(data)
+
   const [prods, setProds] = useState(null as any);
   const [status, setStatus] = useState('default' as any);
   const [listProds, setListProds] = useState([] as any);
@@ -40,11 +40,9 @@ function Main()  {
   const [backetData, setBacketData] = useState([]);
   const [childrenDrawer, setChildrenDrawer] = useState(false);
 
-  
   const showLargeDrawer = () => {
     setVisible(true);
   };
-   
   
   function increment(cardId : any) {
     backetData.forEach(function (element: any) {
@@ -71,6 +69,7 @@ function Main()  {
     const response = await axios.get('https://vkus-vostoka.kz/api/prods').then(res => res.data);
     setProds(response);
   }
+  
   useEffect(() => {
     getProds();
   }, []);

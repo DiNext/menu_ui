@@ -1,22 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DownOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { Empty, Button, Table, Space, Tree, Modal } from 'antd';
+import { Empty, Button, Table, Space, Tree, Modal, Input } from 'antd';
 import CreateProd from './CreateProd';
 import EditProd from './EditProd';
 import cookieManager from '../../src/managers/cookieManager';
 import axios from 'axios';
 
-export default function AdminPanelProds({categories}) {
+const { Search } = Input;
+
+export default function AdminPanelProds({categories, loading}) {
     const [data, setData] = useState([]);
     const [createProd, setCreateProd] = useState(false);
     const [selectedNode, setSelectedNode] = useState(undefined);
     const [selectedNameCat, setSelectedNameCat] = useState(undefined);
     const [selectedProd, setSelectedProd] = useState(undefined);
     const [edit, setEdit] = useState(false);
+    const [status, setStatus] = useState('default');
     const [del, setDel] = useState(false);
+    const [prods, setProds] = useState(null);
+    
     const { confirm } = Modal;
     const cookie = new cookieManager();
     const cards = categories.filter(cards => cards.parent == null);
+
+    async function getProds() {
+      const response = await axios.get('https://vkus-vostoka.kz/api/prods').then(res => res.data);
+      setProds(response);
+    }
+    
+    useEffect(() => {
+      getProds();
+    }, []);
 
     if(categories != undefined, categories.length != 0){
       getFiniteValue(cards)
@@ -144,6 +158,34 @@ export default function AdminPanelProds({categories}) {
       });
     };
 
+    const onSearch = async (value) => {
+      let list = [];
+      if(value === "") {
+        list = []
+        if(selectedNameCat != undefined){
+          await onSelect(selectedNameCat)
+        }else{
+          setData(list)
+        }
+        return setStatus('default')
+      } else {
+        let flag = true;
+        prods.forEach((element) => {
+          if(element.name.toLowerCase().includes(value.toLowerCase())){
+            list.push(element)
+            flag = false
+          }
+        });
+        if(flag == true) {
+          return setStatus('error')
+        }else{
+          setStatus('default')
+        }
+      }
+      
+      setData(list)
+    };
+
     async function onCreatedProd() {
       const id = selectedNode;
       
@@ -188,7 +230,7 @@ export default function AdminPanelProds({categories}) {
       setEdit(false);
     }
 
-    if(!categories || categories == undefined || categories.length == 0){
+    /* if(!categories || categories == undefined || categories.length == 0){
       return ( <><div style={{  width: 200, height: "100%", borderRight: "1px solid black"}}>
     <Tree showLine
           switcherIcon={<DownOutlined />}
@@ -218,9 +260,10 @@ export default function AdminPanelProds({categories}) {
     </div>
     </> ) 
     }
-    else{
+    else{ */
     return ( <><div style={{  width: 250, height: "100%"}}>
-    <h1 style={{position: 'relative', top: "-94px", left:'105%', marginBottom: -60, fontSize:24, width:400}}>{selectedNameCat ? categories.filter(card => card.id == selectedNode)[0].name : 'Выберите категорию'}</h1>
+      <Search placeholder="Поиск товара" allowClear size='large' status={status}onSearch={onSearch} style={{ width: 210, position:'relative', left:"50%", transform:'none',  margin:-100, fontSize:'16px' }} />
+    <h1 style={{position: 'relative', top: "-94px", left:'115%', marginBottom: -55, marginTop: -25,fontSize:24, width:400}}>{selectedNameCat ? categories.filter(card => card.id == selectedNode)[0].name : 'Выберите категорию'}</h1>
     <Tree showLine={{showLeafIcon: false}}
           switcherIcon={<DownOutlined />}
           defaultExpandedKeys={['1']}
@@ -231,9 +274,10 @@ export default function AdminPanelProds({categories}) {
           treeData={cards}
           />
     </div>
+    
     <div style={{width: '100%', height:'100%'}} >
           <Button onClick={(e) => {setCreateProd(true);}} type="primary" style={{marginLeft:'1%', position: 'relative', top: "-90px", left:'87%', margin:-100}}>Создать новую продукцию</Button>
-          <Table columns={columns} dataSource={data} style={{ width:"100%", height:"98%", marginLeft:'1%', margin:0, marginTop:-42}}/>
+          <Table columns={columns} loading={loading} dataSource={data} style={{ width:"100%", height:"98%", marginLeft:'1%', margin:0, marginTop:-42}}/>
 
           <Modal
           title="Создание новой продукции"
@@ -260,6 +304,6 @@ export default function AdminPanelProds({categories}) {
     </div>
     </> ) 
     }
-}
+/* } */
 
 
