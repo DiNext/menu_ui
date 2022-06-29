@@ -171,7 +171,7 @@ function Main()  {
     const text = `Новый заказ!%0AИмя: ${values['name']}.%0AТелефон: ${values['tel']}.%0AАдрес: ${values['address']}.%0AКомментарий: ${values['comment']}.%0AЗаказ: ${order}`
 
     const options = {
-      url: `https://api.telegram.org/bot5527777720:AAEnirVmNAbYX1qDLBtjuJmGRERxbmBBW-0/sendMessage?chat_id=489950830&text=${text}`,
+      url: `https://api.telegram.org/bot5527777720:AAEnirVmNAbYX1qDLBtjuJmGRERxbmBBW-0/sendMessage?chat_id=5590002221&text=${text}`,
       method: 'GET'
     };
     
@@ -266,8 +266,7 @@ function Main()  {
 
               <Search placeholder="Введите название блюда" 
                       allowClear  style={{ width: "90%",
-                      marginLeft: "27px", marginTop: "25px", fontSize: "16px"
-                       }} size='large' onSearch={onSearch} status={status}/>
+                      marginLeft: "27px", marginTop: "25px", fontSize: "16px"}} size='large' onSearch={onSearch} status={status}/>
           </div>
                    
             <Grid cards={data} item={item} listProds={listProds} onChange={onClear}></Grid>
