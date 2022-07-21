@@ -120,7 +120,7 @@ export default function Prod({card})  {
         >
           <p style={{fontSize:'21px', fontWeight:'bold', width:"100%", height:20, marginTop:-20}}> {card.name}</p>
           <p style={{fontSize:'14px', color:"#a0a0a0", marginTop:-5}}>{card.desc}</p>
-           <p style={{marginTop:4, marginBottom:0, fontSize:'22px', color:'#d46b08',fontWeight:'bold', height:20}}>{card.price + " тг."}</p>
+           <p style={{marginTop:4, marginBottom:0, fontSize:'22px', color:'#00853E',fontWeight:'bold', height:20}}>{card.price + " тг."}</p>
         </Card></Badge>
 
       </>)

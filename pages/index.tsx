@@ -21,7 +21,7 @@ const { Search } = Input;
 
 ConfigProvider.config({
   theme: {
-    primaryColor: '#d46b08',
+    primaryColor: '#00853E',
   },
 });
 
@@ -224,11 +224,11 @@ function Main()  {
   return (
     <div className="container">
       <Head>
-        <title>Вкус Востока</title>
+        <title>Пинта</title>
         <link rel="icon" href="/images/logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
         <link rel="preconnect" href="https://fonts.gstatic.com" ></link>
-        <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet"></link>
+        <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@100;500;800;900&family=Prompt:ital,wght@1,500&display=swap" rel="stylesheet"></link>
       </Head>
 
       <main>
@@ -245,19 +245,19 @@ function Main()  {
         <div className='content'>
           <div className='description_title'>
               <span className="span">     
-                <h4 style={{fontFamily: 'Lobster', fontSize:40, color:"#AF8700", marginTop:-10}}>Ресторан Вкус Востока</h4>              
+                <h4 style={{fontFamily: "'MuseoModerno', cursive",fontSize:50, color:"#00853E", marginTop:-10, marginBottom:-5}}>Pinta</h4>              
               </span>
               
               <span className="desc">
               
-                <a href="https://goo.gl/maps/U5i8DJTP44nzSBXZ6" target="_blank" style={{marginTop:-10}}>
+                <a href="https://goo.gl/maps/RWxh7d2yHmyCVSXj8" target="_blank" style={{marginTop:-10, color: "#ff9900 !important"}}>
                 <EnvironmentOutlined />
-                г. Тараз ул. Кошеней 34/1</a>
+                г. Тараз ул. Конаева 67</a>
                 
-                <a href="tel:+77005048888" className='tel' style={{marginTop:-10}}>
+                <a href="tel:+77773311212" className='tel' style={{marginTop:-10, color: "#ff9900 !important"}}>
                 <PhoneOutlined/>
-                  +7(700)-504-88-88</a>
-                  <div className="buttons" style={{position:'relative', left:'-33%', marginTop:30, marginLeft:-150}}>
+                  +7 (777)-331-12-12</a>
+                  <div className="buttons" style={{position:'relative', left:'-33%', marginTop:30, marginLeft:-138}}>
                     <Button type={typeChicken} style={{marginRight:10} }shape="round" onClick={onChicken}> Основное меню</Button>  
                     <Button type={typeChickenBar} onClick={onBar}shape="round"> Бар</Button> 
                   </div>
