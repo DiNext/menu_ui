@@ -19,7 +19,7 @@ function adminPanel() {
   const [loading, setLoading] = useState(true);
 
   useEffect(async () =>  {
-      const categories = await axios.get('https://vkus-vostoka.kz/api/category').then(res => res.data);
+      const categories = await axios.get('https://pinta-taraz.kz/api/category').then(res => res.data);
       setCards(categories);
       setLoading(false);
   }, []);

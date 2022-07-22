@@ -23,7 +23,7 @@ export default function AdminPanelCategory(props) {
 
     async function getCategory(){
       const data = [];
-      await axios.get('https://vkus-vostoka.kz/api/category').then(res => res.data).then((res) => {
+      await axios.get('https://pinta-taraz.kz/api/category').then(res => res.data).then((res) => {
         res.forEach(element => {
           if(element.parent != null){
             data.push({
@@ -67,7 +67,7 @@ export default function AdminPanelCategory(props) {
           }
       }
 
-      await axios.delete(`https://vkus-vostoka.kz/api/category?id=${id}`, config);
+      await axios.delete(`https://pinta-taraz.kz/api/category?id=${id}`, config);
 
       setDel(false);
       await getCategory();

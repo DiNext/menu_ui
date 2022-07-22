@@ -27,7 +27,7 @@ ConfigProvider.config({
 
 function Main()  {
   const fetcher = (url: any) => axios.get(url).then(res => res.data);
-  const { data, error } = useSWR('https://vkus-vostoka.kz/api/category', fetcher);
+  const { data, error } = useSWR('https://pinta-taraz.kz/api/category', fetcher);
 
   const [prods, setProds] = useState(null as any);
   const [status, setStatus] = useState('default' as any);
@@ -66,7 +66,7 @@ function Main()  {
     localStorage.setItem ("Backet", JSON.stringify(backetData));
   }
   async function getProds() {
-    const response = await axios.get('https://vkus-vostoka.kz/api/prods').then(res => res.data);
+    const response = await axios.get('https://pinta-taraz.kz/api/prods').then(res => res.data);
     setProds(response);
   }
   
@@ -171,7 +171,7 @@ function Main()  {
     const text = `Новый заказ!%0AИмя: ${values['name']}.%0AТелефон: ${values['tel']}.%0AАдрес: ${values['address']}.%0AКомментарий: ${values['comment']}.%0AЗаказ: ${order}`
 
     const options = {
-      url: `https://api.telegram.org/bot5527777720:AAEnirVmNAbYX1qDLBtjuJmGRERxbmBBW-0/sendMessage?chat_id=5590002221&text=${text}`,
+      url: `https://api.telegram.org/bot5527777720:AAEnirVmNAbYX1qDLBtjuJmGRERxbmBBW-0/sendMessage?chat_id=489950830&text=${text}`,
       method: 'GET'
     };
     
@@ -328,7 +328,7 @@ function Main()  {
       </main>
 
       <footer style={{height:45}}>
-      <Link href="https://www.instagram.com/vkusvostoka_kz/?igshid=NDBIY2NjN2I=" >    
+      <Link href="https://www.instagram.com/pinta.taraz/?igshid=NDBlY2NjN2I%3D" >    
         <a target="_blank" style={{fontSize:35}}><InstagramOutlined /></a>
       </Link>
       </footer>

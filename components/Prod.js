@@ -103,7 +103,7 @@ export default function Prod({card})  {
     }
 
     return (<>
-          <Badge style={{width:30}} count={count} color='#d46b08' showZero={false} offset={[0,18]}>       
+          <Badge style={{width:30}} count={count} color='#00853E' showZero={false} offset={[0,18]}>       
           <Card
           hoverable
           style={{

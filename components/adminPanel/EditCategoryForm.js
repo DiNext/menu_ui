@@ -64,7 +64,7 @@ function EditCategoryForm (props) {
                 }
             }
 
-            await axios.put(`https://vkus-vostoka.kz/api/category?id=${id}`, body, config);
+            await axios.put(`https://pinta-taraz.kz/api/category?id=${id}`, body, config);
             props.selectedCategory.image = ""; 
             forceUpdate()
             props.onChange()  
@@ -129,7 +129,7 @@ function EditCategoryForm (props) {
                     'Authorization': 'Bearer ' + token
                 }
             }
-            await axios.put(`https://vkus-vostoka.kz/api/category?id=${id}`, body, config);
+            await axios.put(`https://pinta-taraz.kz/api/category?id=${id}`, body, config);
 
             props.onChange();
          }

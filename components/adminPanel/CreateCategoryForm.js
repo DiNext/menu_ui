@@ -80,7 +80,7 @@ function CreateCategoryForm (props) {
                 }
         }
 
-        await axios.post('https://vkus-vostoka.kz/api/category', body, config);
+        await axios.post('https://pinta-taraz.kz/api/category', body, config);
 
         props.onChange();
         } else{
@@ -114,7 +114,7 @@ function CreateCategoryForm (props) {
                     <Input maxLength={20}/>
                 </Form.Item>
                 <Form.Item label="Родительская категория" name="parent" rules={[{ required: true, message: 'Выбрите родительскую категорию!' }]}>
-                    <Select>   
+                    <Select>
                     {props.categories.map((category) => (              
                         category.name == 'Кухня' || category.name == "Бар" ? <Select.Option key={category.id} value={category.id}>{category.name}</Select.Option>: console.log(1)
                     ))}

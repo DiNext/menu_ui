@@ -66,7 +66,7 @@ function EditProd (props) {
                 }
             }
 
-            await axios.put(`https://vkus-vostoka.kz/api/prods?id=${id}`, body, config);
+            await axios.put(`https://pinta-taraz.kz/api/prods?id=${id}`, body, config);
             props.selectedProd.image = ""; 
             forceUpdate()
               
@@ -128,7 +128,7 @@ function EditProd (props) {
                 }
             }
 
-           const res = await axios.put(`https://vkus-vostoka.kz/api/prods?id=${id}`, body, config);
+           const res = await axios.put(`https://pinta-taraz.kz/api/prods?id=${id}`, body, config);
 
            if(res.status == 200) {
             setLoading(false)
