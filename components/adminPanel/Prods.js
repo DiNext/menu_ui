@@ -229,38 +229,6 @@ export default function AdminPanelProds({categories, loading}) {
       setData(res.data);
       setEdit(false);
     }
-
-    /* if(!categories || categories == undefined || categories.length == 0){
-      return ( <><div style={{  width: 200, height: "100%", borderRight: "1px solid black"}}>
-    <Tree showLine
-          switcherIcon={<DownOutlined />}
-          defaultExpandedKeys={['1']}
-          defaultExpandAll={true}
-          treeData={[
-            {
-              title: 'Нет категорий',
-              key: '1',
-              children: []  
-            },
-          ]}/>
-    </div>
-    <div style={{marginLeft: "40%", marginTop:'-10%'}}>
-    <Empty
-        image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-        imageStyle={{
-          height: 60,
-        }}
-        description={
-          <span>
-            Нет продукции
-          </span>
-        }
-      >
-      </Empty>
-    </div>
-    </> ) 
-    }
-    else{ */
     return ( <><div style={{  width: 250, height: "100%"}}>
       <Search placeholder="Поиск товара" allowClear size='large' status={status}onSearch={onSearch} style={{ width: 210, position:'relative', left:"50%", transform:'none',  margin:-100, fontSize:'16px' }} />
     <h1 style={{position: 'relative', top: "-94px", left:'115%', marginBottom: -55, marginTop: -25,fontSize:24, width:400}}>{selectedNameCat ? categories.filter(card => card.id == selectedNode)[0].name : 'Выберите категорию'}</h1>
@@ -288,7 +256,7 @@ export default function AdminPanelProds({categories, loading}) {
           onCancel={()=>{setCreateProd(false)}}
           >
            <CreateProd onChange={(e) => {onCreatedProd()}} categories={categories}
-           selectedCategory={categories.filter(card =>  card.id == selectedNode) }></CreateProd> 
+           selectedCategory={categories.filter(card =>  card.id == selectedNode) } visible={createProd}></CreateProd> 
           </Modal> 
 
           <Modal

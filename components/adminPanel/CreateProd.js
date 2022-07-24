@@ -12,8 +12,6 @@ function CreateProd (props) {
     const cookie = new cookieManager();
     const [form] = Form.useForm();
     
-    form.resetFields()
-
     const normFile = (e)=> {
         if(e.fileList == undefined){
             return e
@@ -21,9 +19,12 @@ function CreateProd (props) {
             setImage(e.fileList[0].originFileObj);
         }
     };
+    
+    if(props.visible == false) form.resetFields()
 
     function onClose() {
         props.onChange();
+        form.resetFields()
     }
 
     function onRemove() {
@@ -75,7 +76,7 @@ function CreateProd (props) {
         await axios.post('https://vkus-vostoka.kz/api/prods', body, config);
 
         props.onChange();
-
+        form.resetFields()
     }  
         return (
             <Form
