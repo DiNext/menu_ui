@@ -46,7 +46,7 @@ function CreateCategoryForm (props) {
                 
                 formData.append('image', image);
                 try{
-                    await axios.post('https://api.imgbb.com/1/upload?key=8b2b93aaf0b8e6ca1e7c94a10f33ac2d', formData, config)
+                    await axios.post('https://api.imgbb.com/1/upload?key=d42f9350d06e01de27700edc3831d61c', formData, config)
                     .then(res => imageURL = res.data.data.display_url);
                 } catch{
                     router.reload(window.location.pathname);

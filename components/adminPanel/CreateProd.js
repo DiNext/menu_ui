@@ -11,8 +11,6 @@ function CreateProd (props) {
     const router = useRouter()
     const cookie = new cookieManager();
     const [form] = Form.useForm();
-    
-    form.resetFields()
 
     const normFile = (e)=> {
         if(e.fileList == undefined){
@@ -21,6 +19,8 @@ function CreateProd (props) {
             setImage(e.fileList[0].originFileObj);
         }
     };
+
+    if(props.visible == false) form.resetFields()
 
     function onClose() {
         props.onChange();
@@ -41,7 +41,7 @@ function CreateProd (props) {
                 formData.append('image', image);
                 
                 try{
-                    await axios.post('https://api.imgbb.com/1/upload?key=8b2b93aaf0b8e6ca1e7c94a10f33ac2d', formData, config)
+                    await axios.post('https://api.imgbb.com/1/upload?key=d42f9350d06e01de27700edc3831d61c', formData, config)
                     .then(res => imageURL = res.data.data.display_url);
                 } catch{
                     router.reload(window.location.pathname);
@@ -75,7 +75,7 @@ function CreateProd (props) {
         await axios.post('https://pinta-taraz.kz/api/prods', body, config);
 
         props.onChange();
-
+        form.resetFields()
     }  
         return (
             <Form
