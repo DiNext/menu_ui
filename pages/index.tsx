@@ -238,14 +238,15 @@ function Main()  {
             <img src="/images/3.jpg" alt="title_image" className="title_img" />
             </div>
           </div>
-          <div className='icon'>
-          <img src="/images/logo.png" alt="logo" className="title_icon" />
-          </div>
+          {/* <div className='icon'>
+            <img src="/images/logo.png" alt="logo" className="title_icon" />
+          </div> */}
         </h1>
         <div className='content'>
           <div className='description_title'>
-              <span className="span">     
-                <h4 style={{fontFamily: "'MuseoModerno', cursive",fontSize:50, color:"#00853E", marginTop:-10, marginBottom:-5}}>Pinta</h4>              
+              <span className="span"> 
+              <img src="/images/logo_h4.png" alt="logo" className='title_icon_h4' />    
+                {/* <h4 style={{fontWeight: 'bold',  fontFamily: "'Poppins', sans-serif", fontSize:50, color:"#00853E", marginTop:-10, marginBottom:-5}}>Пинта</h4> */}              
               </span>
               
               <span className="desc">
