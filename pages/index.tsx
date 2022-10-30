@@ -21,13 +21,13 @@ const { Search } = Input;
 
 ConfigProvider.config({
   theme: {
-    primaryColor: '#00853E',
+    primaryColor: '#00BFFF',
   },
 });
 
 function Main()  {
   const fetcher = (url: any) => axios.get(url).then(res => res.data);
-  const { data, error } = useSWR('https://pinta-taraz.kz/api/category', fetcher);
+  const { data, error } = useSWR('https://duman-taraz.kz/api/category', fetcher);
 
   const [prods, setProds] = useState(null as any);
   const [status, setStatus] = useState('default' as any);
@@ -66,7 +66,7 @@ function Main()  {
     localStorage.setItem ("Backet", JSON.stringify(backetData));
   }
   async function getProds() {
-    const response = await axios.get('https://pinta-taraz.kz/api/prods').then(res => res.data);
+    const response = await axios.get('https://duman-taraz.kz/api/prods').then(res => res.data);
     setProds(response);
   }
   
@@ -126,7 +126,10 @@ function Main()  {
       backetData.forEach((element) => {
         sum += Number(element['price'] * element['qnty'])
       });
-      return "Итого: " + sum + ' тг.';
+      return <>
+                <p>Обслуживание 15%: {(Math.round(sum * 0.15))}тг.</p>
+                <p>Итого: {(Math.round(sum + sum * 0.15))}тг.</p>
+              </>;
     }catch{
       return "Добавьте блюдо в корзину."
     }
@@ -224,7 +227,7 @@ function Main()  {
   return (
     <div className="container">
       <Head>
-        <title>Пинта</title>
+        <title>Duman Hall</title>
         <link rel="icon" href="/images/logo.png" />
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
         <link rel="preconnect" href="https://fonts.gstatic.com" ></link>
@@ -251,13 +254,14 @@ function Main()  {
               
               <span className="desc">
               
-                <a href="https://goo.gl/maps/RWxh7d2yHmyCVSXj8" target="_blank" style={{marginTop:-10, color: "#ff9900 !important"}}>
+                <a href="https://goo.gl/maps/Nxut4sT4AUQ1J3aB8" target="_blank" style={{marginTop:-10, color: "#1E90FF !important"}}>
                 <EnvironmentOutlined />
-                г. Тараз ул. Конаева 67</a>
+                г. Тараз ул. Тауке хана 35</a>
                 
-                <a href="tel:+77773311212" className='tel' style={{marginTop:-10, color: "#ff9900 !important"}}>
+                <a href="tel:+77770229909" className='tel' style={{marginTop:-10, color: "#1E90FF !important"}}>
                 <PhoneOutlined/>
-                  +7 (777)-331-12-12</a>
+                  +7 (777)-022-99-09</a>
+                  <span style={{marginTop:-10, marginLeft:10, marginRight:-216,color: "#1E90FF !important"}}>Время работы: ⏱11:00-4:00</span>
                   <div className="buttons" style={{position:'relative', left:'-33%', marginTop:30, marginLeft:-138}}>
                     <Button type={typeChicken} style={{marginRight:10} }shape="round" onClick={onChicken}> Основное меню</Button>  
                     <Button type={typeChickenBar} onClick={onBar}shape="round"> Бар</Button> 
@@ -329,7 +333,7 @@ function Main()  {
       </main>
 
       <footer style={{height:45}}>
-      <Link href="https://www.instagram.com/pinta.taraz/?igshid=NDBlY2NjN2I%3D" >    
+      <Link href="https://instagram.com/duman_hall_taraz?igshid=YmMyMTA2M2Y=" >    
         <a target="_blank" style={{fontSize:35}}><InstagramOutlined /></a>
       </Link>
       </footer>

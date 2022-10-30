@@ -72,7 +72,7 @@ function CreateProd (props) {
                 }
         }
 
-        await axios.post('https://pinta-taraz.kz/api/prods', body, config);
+        await axios.post('https://duman-taraz.kz/api/prods', body, config);
 
         props.onChange();
         form.resetFields()

@@ -1,4 +1,4 @@
-import { Spin, Empty, Button } from 'antd';
+import { Spin, Empty, Button, Anchor } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import Prod from "./Prod"
@@ -18,7 +18,9 @@ export default function Grid({ cards, item, listProds, onChange })  {
     else if(selectedItem){
       if(selectedItem.prods && selectedItem.prods.length != 0){
         return (<>
-        <Button shape="circle" icon={<ArrowLeftOutlined /> } size="large" style={{marginTop:34, marginLeft: 23, marginBottom:-30}} onClick={onBack}/>
+        <Anchor style={{marginTop:34, marginLeft: 23, marginBottom:-30}}>
+          <Button shape="circle" icon={<ArrowLeftOutlined /> } size="large"  onClick={onBack}/>
+        </Anchor>
         <div className="grid">{selectedItem.prods.map((card) => ( 
               <Prod card={card}></Prod>
             ))}</div> 
@@ -26,7 +28,9 @@ export default function Grid({ cards, item, listProds, onChange })  {
       } 
       else if(selectedItem.children && selectedItem.children != 0){
         return (<>
-          <Button shape="circle" icon={<ArrowLeftOutlined /> } size="large" style={{marginTop:34, marginLeft: 23, marginBottom:-30}} onClick={onBack}/>
+          <Anchor style={{marginTop:34, marginLeft: 23, marginBottom:-30}}>
+          <Button shape="circle" icon={<ArrowLeftOutlined /> } size="large"  onClick={onBack}/>
+        </Anchor>
         <div className="grid">
         {selectedItem.children.map((card) => (
           <div style={{backgroundImage: `url(${card.image})`, backgroundSize: "cover"}} onClick={e=>{setSelectedItem(card); window.scrollTo({ top: 0, behavior: 'smooth' });}}className="card" key={card.index} data={card}>
@@ -38,14 +42,18 @@ export default function Grid({ cards, item, listProds, onChange })  {
       </div></>)
       }else{
         return (<>
-          <Button shape="circle" icon={<ArrowLeftOutlined /> } size="large" style={{marginTop:34, marginLeft: 23, marginBottom:-30}} onClick={onBack}/>
+         <Anchor style={{marginTop:34, marginLeft: 23, marginBottom:-30}}>
+          <Button shape="circle" icon={<ArrowLeftOutlined /> } size="large"  onClick={onBack}/>
+        </Anchor>
             <Empty description="Нет продукции.." style={{marginTop: 60}}></Empty>
             </>
           )  
       }
     } else if(listProds != undefined && listProds.length != 0){
       return (<>
-        <Button shape="circle" icon={<ArrowLeftOutlined /> } size="large" style={{marginTop:34, marginLeft: 23, marginBottom:-30}} onClick={onBack}/>
+        <Anchor style={{marginTop:34, marginLeft: 23, marginBottom:-30}}>
+          <Button shape="circle" icon={<ArrowLeftOutlined /> } size="large"  onClick={onBack}/>
+        </Anchor>
         <div className="grid">{listProds.map((card) => ( 
               <Prod card={card}></Prod>
             ))}</div> 
