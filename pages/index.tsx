@@ -19,12 +19,6 @@ interface DataType {
 
 const { Search } = Input;
 
-ConfigProvider.config({
-  theme: {
-    primaryColor: '#00BFFF',
-  },
-});
-
 function Main()  {
   const fetcher = (url: any) => axios.get(url).then(res => res.data);
   const { data, error } = useSWR('https://duman-taraz.kz/api/category', fetcher);
@@ -228,7 +222,7 @@ function Main()  {
     <div className="container">
       <Head>
         <title>Duman Hall</title>
-        <link rel="icon" href="/images/logo.png" />
+        <link rel="icon" href="/images/logo.jpg" />
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
         <link rel="preconnect" href="https://fonts.gstatic.com" ></link>
         <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@100;500;800;900&family=Prompt:ital,wght@1,500&display=swap" rel="stylesheet"></link>
@@ -238,7 +232,7 @@ function Main()  {
         <h1 className="title">
           <div className='placeholder'>
             <div>
-            <img src="/images/3.jpg" alt="title_image" className="title_img" />
+            <img src="/images/3.jpeg" alt="title_image" className="title_img"/>
             </div>
           </div>
           {/* <div className='icon'>
@@ -248,21 +242,24 @@ function Main()  {
         <div className='content'>
           <div className='description_title'>
               <span className="span"> 
-              <img src="/images/logo_h4.png" alt="logo" className='title_icon_h4' />    
+              <img src="/images/logo.jpg" alt="logo" className='title_icon_h4' /> 
+                <div className='logoWrapper'>
+                <span className='logoName'>DUMAN</span>
+                <span className='logoSubName'>HALL RESTAURANT & HOTEL</span>
+                </div>
                 {/* <h4 style={{fontWeight: 'bold',  fontFamily: "'Poppins', sans-serif", fontSize:50, color:"#00853E", marginTop:-10, marginBottom:-5}}>Пинта</h4> */}              
               </span>
               
               <span className="desc">
               
-                <a href="https://goo.gl/maps/Nxut4sT4AUQ1J3aB8" target="_blank" style={{marginTop:-10, color: "#1E90FF !important"}}>
+                <a href="https://goo.gl/maps/Nxut4sT4AUQ1J3aB8" target="_blank" style={{marginTop:-10, color: "#1E90FF !important", zIndex: 999}}>
                 <EnvironmentOutlined />
                 г. Тараз ул. Тауке хана 35</a>
                 
                 <a href="tel:+77770229909" className='tel' style={{marginTop:-10, color: "#1E90FF !important"}}>
                 <PhoneOutlined/>
                   +7 (777)-022-99-09</a>
-                  <span style={{marginTop:-10, marginLeft:10, marginRight:-216,color: "#1E90FF !important"}}>Время работы: ⏱11:00-4:00</span>
-                  <div className="buttons" style={{position:'relative', left:'-33%', marginTop:30, marginLeft:-138}}>
+                  <div className="buttons" style={{position:'relative', left:'-41%', marginTop:30, marginLeft:-138, zIndex: 1000}}>
                     <Button type={typeChicken} style={{marginRight:10} }shape="round" onClick={onChicken}> Основное меню</Button>  
                     <Button type={typeChickenBar} onClick={onBar}shape="round"> Бар</Button> 
                   </div>
@@ -271,7 +268,7 @@ function Main()  {
 
               <Search placeholder="Введите название блюда" 
                       allowClear  style={{ width: "90%",
-                      marginLeft: "27px", marginTop: "25px", fontSize: "16px"}} size='large' onSearch={onSearch} status={status}/>
+                      marginLeft: "27px", marginTop: "25px", fontSize: "16px", marginBottom:"20px"}} size='large' onSearch={onSearch} status={status}/>
           </div>
                    
             <Grid cards={data} item={item} listProds={listProds} onChange={onClear}></Grid>
