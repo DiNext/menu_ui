@@ -96,6 +96,8 @@
 
 .title_icon_h4 {
   position: relative;
+  object-fit: cover;
+  border-radius: 50px;
   top: -10px;
   left: 9%;
   margin-left: -55px;
@@ -183,15 +185,16 @@ code {
 .logoWrapper {
   display: flex;
   flex-direction: column;
-  margin-left: 70px;
+  margin-left: 68px;
   line-height: 0.8em;
-  color: #162186;
+  color: #000000;
   margin-top: 10px;
 }
 
 .logoSubName {
   font-size: 13px;
   font-weight: bold;
+  margin-left: 2px;
 }
 
 .card {

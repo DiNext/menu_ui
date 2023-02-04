@@ -24,7 +24,7 @@ export default function AdminPanelProds({categories, loading}) {
     const cards = categories.filter(cards => cards.parent == null);
 
     async function getProds() {
-      const response = await axios.get('https://duman-taraz.kz/api/prods').then(res => res.data);
+      const response = await axios.get('https://hilal-taraz.kz/api/prods').then(res => res.data);
       setProds(response);
     }
     
@@ -71,7 +71,7 @@ export default function AdminPanelProds({categories, loading}) {
         }
       }
 
-      const res = await axios.get(`https://duman-taraz.kz/api/prods/find?id=${id}`, config);
+      const res = await axios.get(`https://hilal-taraz.kz/api/prods/find?id=${id}`, config);
       setData(res.data);
     }
 
@@ -90,10 +90,10 @@ export default function AdminPanelProds({categories, loading}) {
           }
       }
 
-      await axios.delete(`https://duman-taraz.kz/api/prods?id=${id}`, config);
+      await axios.delete(`https://hilal-taraz.kz/api/prods?id=${id}`, config);
 
       const idCat = selectedNode;
-      const res = await axios.get(`https://duman-taraz.kz/api/prods/find?id=${idCat}`, config);
+      const res = await axios.get(`https://hilal-taraz.kz/api/prods/find?id=${idCat}`, config);
       setData(res.data);
 
       setDel(false);
@@ -203,7 +203,7 @@ export default function AdminPanelProds({categories, loading}) {
         }
       }
 
-      const res = await axios.get(`https://duman-taraz.kz/api/prods/find?id=${id}`, config);
+      const res = await axios.get(`https://hilal-taraz.kz/api/prods/find?id=${id}`, config);
       setData(res.data);
       setCreateProd(false);
     }
@@ -225,7 +225,7 @@ export default function AdminPanelProds({categories, loading}) {
         }
       }
 
-      const res = await axios.get(`https://duman-taraz.kz/api/prods/find?id=${id}`, config);
+      const res = await axios.get(`https://hilal-taraz.kz/api/prods/find?id=${id}`, config);
       setData(res.data);
       setEdit(false);
     }

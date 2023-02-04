@@ -17,11 +17,17 @@ interface DataType {
   id: number
 }
 
+ConfigProvider.config({
+  theme: {
+    primaryColor: '#ee3a3a',
+  },
+});
+
 const { Search } = Input;
 
 function Main()  {
   const fetcher = (url: any) => axios.get(url).then(res => res.data);
-  const { data, error } = useSWR('https://duman-taraz.kz/api/category', fetcher);
+  const { data, error } = useSWR('https://hilal-taraz.kz/api/category', fetcher);
 
   const [prods, setProds] = useState(null as any);
   const [status, setStatus] = useState('default' as any);
@@ -60,7 +66,7 @@ function Main()  {
     localStorage.setItem ("Backet", JSON.stringify(backetData));
   }
   async function getProds() {
-    const response = await axios.get('https://duman-taraz.kz/api/prods').then(res => res.data);
+    const response = await axios.get('https://hilal-taraz.kz/api/prods').then(res => res.data);
     setProds(response);
   }
   
@@ -222,7 +228,7 @@ function Main()  {
     <div className="container">
       <Head>
         <title>Duman Hall</title>
-        <link rel="icon" href="/images/logo.jpg" />
+        <link rel="icon" href="/images/logo.jpeg" />
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
         <link rel="preconnect" href="https://fonts.gstatic.com" ></link>
         <link href="https://fonts.googleapis.com/css2?family=MuseoModerno:wght@100;500;800;900&family=Prompt:ital,wght@1,500&display=swap" rel="stylesheet"></link>
@@ -242,23 +248,23 @@ function Main()  {
         <div className='content'>
           <div className='description_title'>
               <span className="span"> 
-              <img src="/images/logo.jpg" alt="logo" className='title_icon_h4' /> 
+              <img src="/images/logo.jpeg" alt="logo" className='title_icon_h4' /> 
                 <div className='logoWrapper'>
-                <span className='logoName'>DUMAN</span>
-                <span className='logoSubName'>HALL RESTAURANT & HOTEL</span>
+                <span className='logoName'>HILAL</span>
+                <span className='logoSubName'>RESTOBAR</span>
                 </div>
                 {/* <h4 style={{fontWeight: 'bold',  fontFamily: "'Poppins', sans-serif", fontSize:50, color:"#00853E", marginTop:-10, marginBottom:-5}}>Пинта</h4> */}              
               </span>
               
               <span className="desc">
               
-                <a href="https://goo.gl/maps/Nxut4sT4AUQ1J3aB8" target="_blank" style={{marginTop:-10, color: "#1E90FF !important", zIndex: 999}}>
+                <a href="https://goo.gl/maps/fxU2SbaEhxD29nJH6" target="_blank" style={{marginTop:-10, color: "#ee3a3a !important", zIndex: 999}}>
                 <EnvironmentOutlined />
-                г. Тараз ул. Тауке хана 35</a>
+                г. Тараз ул. просп. Абая 202</a>
                 
-                <a href="tel:+77770229909" className='tel' style={{marginTop:-10, color: "#1E90FF !important"}}>
+                <a href="tel:+77077766539" className='tel' style={{marginTop:-10, color: "#ee3a3a !important"}}>
                 <PhoneOutlined/>
-                  +7 (777)-022-99-09</a>
+                  +7 (707)-776-65-39</a>
                   <div className="buttons" style={{position:'relative', left:'-41%', marginTop:30, marginLeft:-138, zIndex: 1000}}>
                     <Button type={typeChicken} style={{marginRight:10} }shape="round" onClick={onChicken}> Основное меню</Button>  
                     <Button type={typeChickenBar} onClick={onBar}shape="round"> Бар</Button> 
@@ -330,7 +336,7 @@ function Main()  {
       </main>
 
       <footer style={{height:45}}>
-      <Link href="https://instagram.com/duman_hall_taraz?igshid=YmMyMTA2M2Y=" >    
+      <Link href="https://instagram.com/hilal_restobar_taraz?igshid=YmMyMTA2M2Y=" >    
         <a target="_blank" style={{fontSize:35}}><InstagramOutlined /></a>
       </Link>
       </footer>

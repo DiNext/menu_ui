@@ -80,7 +80,7 @@ function CreateCategoryForm (props) {
                 }
         }
 
-        await axios.post('https://duman-taraz.kz/api/category', body, config);
+        await axios.post('https://hilal-taraz.kz/api/category', body, config);
 
         props.onChange();
         } else{
