@@ -227,7 +227,7 @@ function Main()  {
   return (
     <div className="container">
       <Head>
-        <title>Duman Hall</title>
+        <title>Hilal Restobar</title>
         <link rel="icon" href="/images/logo.jpeg" />
         <link rel="preconnect" href="https://fonts.googleapis.com"></link>
         <link rel="preconnect" href="https://fonts.gstatic.com" ></link>
