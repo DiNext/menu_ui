@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { Form, Input, Button, Upload, Alert, Space, Image, Modal } from 'antd';
 import { UploadOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import cookieManager from '../../src/managers/cookieManager';
+import ImageManager from '../../src/managers/imageManager';
 import axios from 'axios';
 
 const { confirm } = Modal;
@@ -88,7 +89,7 @@ function EditCategoryForm (props) {
         });
 
         if(uniqName && emptyCategory) {
-            let imageURL = '';
+            let imageURL = 'https://imagesmenubucket.s3.amazonaws.com/images/';
             if(image != null){ //creating image
                 const config = {
                     headers: { 'content-type': 'multipart/form-data' },
@@ -98,8 +99,8 @@ function EditCategoryForm (props) {
                 formData.append('image', image);
                 
                 try{
-                    await axios.post('https://api.imgbb.com/1/upload?key=d42f9350d06e01de27700edc3831d61c', formData, config)
-                    .then(res => imageURL = res.data.data.display_url);
+                    const res = ImageManager.uploadImage(image, image.name)
+                    imageURL += encodeURIComponent(image.name)
                 } catch{
                     router.reload(window.location.pathname);
                 }

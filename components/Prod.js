@@ -116,7 +116,7 @@ export default function Prod({card})  {
             <PlusOutlined onClick= {increment} key="edit" />,
             <MinusOutlined onClick= {decrement} key="ellipsis" />,
           ]}
-          cover={card.image? <img alt="image" src={card.image? `${card.image}` : '../images/4.jpeg'} style={{height:320}}/> : <></> }
+          cover={card.image && card.image !== 'https://imagesmenubucket.s3.amazonaws.com/images/' ? <img alt="image" src={card.image? `${card.image}` : '../images/4.jpeg'} style={{height:320}}/> : <></> }
         >
           <p style={{fontSize:'21px', fontWeight:'bold', width:"100%", height:20, marginTop:-20}}> {card.name}</p>
           <p style={{fontSize:'14px', color:"#a0a0a0", marginTop:-5}}>{card.desc}</p>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router'
 import { Form, Input, Button, Upload, Select, InputNumber } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import ImageManager from '../../src/managers/imageManager';
 import cookieManager from '../../src/managers/cookieManager';
 import axios from 'axios';
 import TextArea from 'antd/lib/input/TextArea';
@@ -31,7 +32,7 @@ function CreateProd (props) {
     }
 
     async function onFinish(values) {
-            let imageURL = '';
+            let imageURL = 'https://imagesmenubucket.s3.amazonaws.com/images/';
             if(image != null){ //creating image
                 const config = {
                     headers: { 'content-type': 'multipart/form-data' },
@@ -41,8 +42,8 @@ function CreateProd (props) {
                 formData.append('image', image);
                 
                 try{
-                    await axios.post('https://api.imgbb.com/1/upload?key=d42f9350d06e01de27700edc3831d61c', formData, config)
-                    .then(res => imageURL = res.data.data.display_url);
+                    const res = ImageManager.uploadImage(image, image.name)
+                    imageURL += encodeURIComponent(image.name)
                 } catch{
                     router.reload(window.location.pathname);
                 }
